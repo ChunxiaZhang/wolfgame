@@ -1,0 +1,63 @@
+[
+  {
+    "name": "discipline",
+    "value": "camouflage",
+    "message": "Le camouflage",
+    "checked": false
+  },
+  {
+    "name": "discipline",
+    "value": "chasse",
+    "message": "La chasse",
+    "checked": false
+  },
+  {
+    "name": "discipline",
+    "value": "sixiemeSens",
+    "message": "Sixième Sens",
+    "checked": false
+  },
+  {
+    "name": "discipline",
+    "value": "orientation",
+    "message": "L'Orientation",
+    "checked": false
+  },
+  {
+    "name": "discipline",
+    "value": "guerison",
+    "message": "La guérison",
+    "checked": false
+  },
+  {
+    "name": "discipline",
+    "value": "maitriseArmes",
+    "message": "La Maîtrise des Armes",
+    "checked": false
+  },
+  {
+    "name": "discipline",
+    "value": "bouclierPsychique",
+    "message": "Bouclier Psychique",
+    "checked": false
+  },
+  {
+    "name": "discipline",
+    "value": "puissancePsychique",
+    "message": "Puissance Psychique",
+    "checked": false
+  },
+  {
+    "name": "discipline",
+    "value": "communicationAnimale",
+    "message": "Communication Animale",
+    "checked": false
+  },
+  {
+    "name": "discipline",
+    "value": "maitrisePsychiqueMatiere",
+    "message": "Maîtrise Psychique de la Matière",
+    "checked": false
+  }
+]
+

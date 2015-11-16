@@ -1,0 +1,70 @@
+[
+  {
+    "name": "arme",
+    "value": "epee",
+    "message": "Épée (Arme)",
+    "checked": false
+  },
+  {
+    "name": "arme",
+    "value": "sabre",
+    "message": "Sabre (Arme)",
+    "checked": false
+  },
+  {
+    "name": "arme",
+    "value": "lance",
+    "message": "Lance (Arme)",
+    "checked": false
+  },
+  {
+    "name": "arme",
+    "value": "masseArme",
+    "message": "Masse d'Arme (Arme)",
+    "checked": false
+  },
+  {
+    "name": "arme",
+    "value": "marteauGuerre",
+    "message": "Marteau de Guerre (Arme)",
+    "checked": false
+  },
+  {
+    "name": "arme",
+    "value": "hache",
+    "message": "Hâche (Arme)",
+    "checked": false
+  },
+  {
+    "name": "arme",
+    "value": "baton",
+    "message": "Bâton (Arme)",
+    "checked": false
+  },
+  {
+    "name": "arme",
+    "value": "glaive",
+    "message": "Glaive (Arme)",
+    "checked": false
+  },
+  {
+    "name": "objet",
+    "value": "potionLampsur",
+    "message": "Potion de Lampsur (Objet dans le sac à dos)",
+    "checked": false
+  },
+  {
+    "name": "objet",
+    "value": "rationsSpeciales",
+    "message": "Rations spéciales (Objet dans le sac à dos)",
+    "checked": false
+  },
+  {
+    "name": "objetSpecial",
+    "value": "giletCuirMartele",
+    "message": "Gilet de Cuir Martelé (Objet Spécial)",
+    "checked": false
+  }
+]
+
+
