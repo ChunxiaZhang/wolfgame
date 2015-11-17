@@ -7,8 +7,13 @@ var pagesJeu = require('../lib/pagesJeu.js')
 var router = express.Router();
 
 router.get('/jeu', function(req, res) {
-    var joueur = req.session.joueur;
+    //var joueur = req.session.joueur;
+
+    res.render('pageJeu');
+
 });
+
+
 
 /**
  * On envoie le HTML de la page complète désirée au client.
@@ -16,6 +21,7 @@ router.get('/jeu', function(req, res) {
  *
  */
 router.get('/jeu/:pageId', function(req, res, next) {
+
     var id = req.params.pageId;
     var htmlPage = u.chain(fs.readdirSync('views/page'))
         // On récupère les sous-sections de la page

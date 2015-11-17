@@ -1,0 +1,15 @@
+extends ./layout
+
+block head
+    link(rel="stylesheet", href="/stylesheets/pageJeu.css")
+
+block content
+    main(ng-controller="PageController")
+        div#title
+            img(src="/images/pageTitre.png")
+            p#numeroPage numeroPage
+
+        section#histoire
+            p(ng-repeat="paragraphe in contenu") here {{paragraphe.text}}
+
+        include ./stats.jade

@@ -11,5 +11,9 @@ router.get('/aide', function(req, res, next) {
     res.render('aide');
 });
 
+router.get('/page', function(req, res) {
+    res.render('pageJeu');
+});
+
 module.exports = router;
 
