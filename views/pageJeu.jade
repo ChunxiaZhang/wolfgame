@@ -4,12 +4,18 @@ block head
     link(rel="stylesheet", href="/stylesheets/pageJeu.css")
 
 block content
-    main(ng-controller="PageController")
+    main(ng-controller="jeuPageController")
         div#title
             img(src="/images/pageTitre.png")
-            p#numeroPage numeroPage
+            p#numeroPage {{numeroPage}}
 
         section#histoire
-            p(ng-repeat="paragraphe in contenu") here {{paragraphe.text}}
+            p(ng-repeat="paragraphe in contenu") {{paragraphe.text}}
+
+        section#decision
+            h1 Decision
+            div(ng-repeat="item in decision") {{item.text}}
+               a(href="#", ng-click="loadPage(item.pageId, item.sectionId)") turn to page {{item.pageId}}
 
         include ./stats.jade
+

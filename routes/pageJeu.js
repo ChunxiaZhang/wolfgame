@@ -8,7 +8,7 @@ var router = express.Router();
 
 router.get('/jeu', function(req, res) {
     //var joueur = req.session.joueur;
-
+    console.log('/jeu');
     res.render('pageJeu');
 
 });
@@ -21,7 +21,7 @@ router.get('/jeu', function(req, res) {
  *
  */
 router.get('/jeu/:pageId', function(req, res, next) {
-
+    console.log('/jeu/:pageId');
     var id = req.params.pageId;
     var htmlPage = u.chain(fs.readdirSync('views/page'))
         // On récupère les sous-sections de la page

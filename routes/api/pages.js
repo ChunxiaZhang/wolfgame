@@ -63,6 +63,7 @@ router.get('/decision/:pageId', function(req, res) {
         res.json({message: "Cette page n'a pas de choix possibles."});
     } else {
         var joueur = req.session.joueur;
+        console.log("session joueur: " + joueur.enduranceBase);
         if (joueur == undefined) {
             res.json({message: "Le joueur n'existe pas dans la session."});
         } else {

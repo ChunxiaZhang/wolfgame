@@ -2,7 +2,7 @@ gameApp.controller('formController', function($scope, $http, $window, factoryPro
 
     $scope.newPlayerName = "";
     $scope.isWholeFormValid = true;
-    factoryProperties.disciplinesList(function (disciplines) {
+    factoryProperties.disciplinesList(function(disciplines) {
         $scope.disciplinesScope = disciplines;
     });
     factoryProperties.equipmentsList(function (equipments) {
@@ -25,7 +25,6 @@ gameApp.controller('formController', function($scope, $http, $window, factoryPro
 
     $scope.changeDiscStatus = function(index){
         var num = $scope.formValidator.getCheckedNum($scope.disciplinesScope);
-        console.log("num: " + num);
 
         if (num > 5) {
             $scope.formValidator.isMoreThan5 = true;
@@ -44,7 +43,7 @@ gameApp.controller('formController', function($scope, $http, $window, factoryPro
     };
 
     $scope.isWeaponSkillChecked = function() {
-        for(var i = 0; i < $scope.disciplinesScope; i++) {
+        for(var i = 0; i<$scope.disciplinesScope.length; i++) {
             if ($scope.disciplinesScope[i].value == "maitriseArmes" && $scope.disciplinesScope[i].checked) {
                 return true;
             }
@@ -53,7 +52,7 @@ gameApp.controller('formController', function($scope, $http, $window, factoryPro
     }
 
     $scope.validWeaponSkill = function() {
-        if ($scope.isWeaponSkillChecked() && $scope.getArmeValues().length > 0) {
+        if (!$scope.isWeaponSkillChecked() && $scope.getArmeValues().length > 0) {
             $scope.formValidator.isWeaponSkillValid = false;
         }else {
             $scope.formValidator.isWeaponSkillValid = true;
@@ -133,21 +132,26 @@ gameApp.controller('formController', function($scope, $http, $window, factoryPro
     }
 
     $scope.submitForm = function(inputValid) {
-
+        $scope.validWeaponSkill();
         if (inputValid && $scope.formValidator.isDiscCheckedValid &&
             $scope.formValidator.isEquipCheckedValid && $scope.formValidator.isWeaponSkillValid) {
-            console.log("$scope.player:" + $scope.player().playerName);
-            console.log($scope.player().disciplines);
-            console.log($scope.player().armes);
-            console.log($scope.player().objets);
-            console.log($scope.player().objetsSpeciaux);
 
             $http.post('/jeu/1', $scope.player())
                 .success(function(){
-                    //$window.location.href = "/jeu/1";
+                    $window.location.href = "/jeu/";
                 });
         } else {
-            alert("Form is not valid!");
+            var message = "";
+            if(!inputValid) {
+                message = "Player name is not valid!"
+            } else if(!$scope.formValidator.isDiscCheckedValid) {
+                message = "Disciplines were not checked correctly!"
+            } else if(!$scope.formValidator.isEquipCheckedValid) {
+                message = "Equipments were not checked correctly!"
+            } else if(!$scope.formValidator.isWeaponSkillValid) {
+                message = "You can not choose armes because you didn't choose 'La Maîtrise des Armes'!";
+            }
+            alert(message);
         }
     }
 
