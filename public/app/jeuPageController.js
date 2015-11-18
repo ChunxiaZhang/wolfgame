@@ -1,8 +1,9 @@
 /**
  * Created by Zoe on 2015-11-16.
  */
-gameApp.controller('jeuPageController', function($scope, $routeParams, $http){
-
+gameApp.controller('jeuPageController', function($scope, $routeParams, $http, pageIdentify){
+    var pId = pageIdentify.getPageId();
+    var sId = pageIdentify.getSectionId();
     $scope.numeroPage = 1;
     $scope.loadPage = function(pageId, sectionId) {
         $scope.numeroPage = pageId;
@@ -16,6 +17,7 @@ gameApp.controller('jeuPageController', function($scope, $routeParams, $http){
                 $scope.decision = data;
             });
     }
-    $scope.loadPage(1, 1);
+    console.log("pId:" + pId + " sId:" + sId);
+    $scope.loadPage(pId, sId);
 
 });

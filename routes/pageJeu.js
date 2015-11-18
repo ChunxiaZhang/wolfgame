@@ -6,11 +6,9 @@ var u = require('underscore');
 var pagesJeu = require('../lib/pagesJeu.js')
 var router = express.Router();
 
-router.get('/jeu', function(req, res) {
+router.get('/jeu/', function(req, res) {
     //var joueur = req.session.joueur;
-    console.log('/jeu');
-    res.render('pageJeu');
-
+     res.render('pageJeu');
 });
 
 
@@ -30,18 +28,37 @@ router.get('/jeu/:pageId', function(req, res, next) {
         })
         // Pour chaque sous-section, on compile son Jade pour obtenir du HTML.
         .map(function(file) {
+            console.log("file: " + file);
+            console.log("path:" + 'views/page/' + file);
             var fn = jade.compile(fs.readFileSync('views/page/' + file, 'utf8'), {
                 filename: path.join('views/page/', file)
             });
+            console.log("filename: " + filename);
             return fn({name:'Oleg'}).trim();
         })
         // On combine chaque HTML obtenu un à la suite de l'autre.
         .join("");
 
+    console.log("htmlPage" + htmlPage);
     res.render('page/pageJeu', {
         numeroPage: req.params.pageId,
         htmlPage: htmlPage
     });
+});
+
+router.get('/compile/creation', function(req, res){
+    var fn = jade.compile(fs.readFileSync('views/page/12_1.jade', 'utf8'), {
+        filename: path.join('views/page/', file)
+    });
+    console.log(fn({name:'Oleg'}).trim());
+/*})
+    fs.readFile('views/page/1_1.jade', 'utf8', function (err, data) {
+        if (err) throw err;
+        console.log(data);
+        var fn = jade.compile(data);
+        var html = fn({name:'Oleg'});
+        console.log(html);
+    });*/
 });
 
 module.exports = router;

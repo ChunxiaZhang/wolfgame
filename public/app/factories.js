@@ -43,3 +43,29 @@ gameApp.factory('factoryPlayers', function($http){
         }
     };
 });
+
+gameApp.factory('pageIdentify', function(){
+    var identify = {
+        pageId: 1,
+        sectionId: 1
+    };
+    return {
+        getPageId: function() {
+            console.log(" get identify.pageId: " + identify.pageId);
+            return identify.pageId;
+        },
+        setPageId: function(id) {
+
+           identify.pageId = id;
+            console.log("identify.pageId: " + identify.pageId);
+        },
+        getSectionId: function() {
+            console.log("get identify.sectionId: " + identify.sectionId);
+            return identify.sectionId;
+        },
+        setSectionId: function(id) {
+            identify.sectionId = id;
+            console.log("identify.sectionId: " + identify.sectionId);
+        }
+    };
+});
