@@ -23,12 +23,7 @@ router.get('/:id?', function(req, res) {
             if (err) {
                 res.send(err);
             } else if (joueur) {
-                //TODO Save joueur to session, but in get '/decision/:pageId', session.joueur is undifined
                 req.session.joueur = joueur; //add joueur to session
-                for (var item in req.session) {
-                    console.log("session: " + item);
-                }
-                console.log("save to session: " + req.session.joueur);
                 res.json(joueur);
             } else {
                 res.json({});

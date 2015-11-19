@@ -16,10 +16,12 @@ block content
 
         section(id="ajouterObjets" ng-show="haveAjouterObjets")
 
+        include ./stats.jade
+
         section(id='decision' ng-show="haveDecision")
             h1 Decision
             div(ng-repeat="item in decision") {{item.text}}
-               a(href="#" ng-click="loadPage(item.pageId, item.sectionId)" ng-disable="!decisionsAreEnabled[$index]") turn to page {{item.pageId}}
+              a(href="" ng-click="loadPage(item.pageId, item.sectionId)" ng-class="{disabled: !choixPossible(item.pageId)}") turn to page {{item.pageId}}
 
-        include ./stats.jade
+
 

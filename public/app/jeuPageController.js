@@ -26,6 +26,9 @@ gameApp.controller('jeuPageController', function($scope, $routeParams, $http,
         });
     });
     $scope.loadPage = function(pageId, sectionId) {
+        if(!$scope.choixPossible(pageId)) {
+            return;
+        }
         console.log("pageId:" + pageId + " sectionId: " + sectionId);
         $scope.numeroPage = pageId;
         factoryPages.page(pageId, sectionId, function(data){
@@ -75,5 +78,29 @@ gameApp.controller('jeuPageController', function($scope, $routeParams, $http,
                 $scope.result = data;
             });
     };
+
+    $scope.choixPossible = function(possibleId) {
+        console.log("if it's possible");
+        if($scope.numeroPage == 160 && possibleId == 204) {
+            if($scope.player.disciplines.indexOf("chasse") < 0) {
+                console.log("for 204, not possible");
+                return false;
+            } else {
+                console.log("for 204, possible");
+                return true;
+            }
+        }
+        if($scope.numeroPage == 160 && possibleId == 318) {
+            if($scope.player.disciplines.indexOf("communicationAnimale") < 0) {
+                console.log("for 318, not possible");
+                return false;
+            } else {
+                console.log("for 318, possible");
+                return true;
+            }
+        }
+        console.log("possible");
+        return true;
+    }
 
 });

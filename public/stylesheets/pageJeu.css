@@ -114,6 +114,7 @@ p {
 }
 
 #decision {
+    clear: both;
     border: 5px groove #808080;
     border-radius: 20px;
     padding: 20px;
@@ -145,6 +146,11 @@ p {
     text-decoration: none;
     color: #008000;
     font-weight: bold;
+}
+
+#decision a.disabled {
+    cursor: not-allowed;
+    color: grey;
 }
 
 #histoire > img {
@@ -305,3 +311,4 @@ p {
   margin: 0 15px 20px 15px;
   line-height: 0;
 }
+
