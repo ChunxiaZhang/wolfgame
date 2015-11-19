@@ -138,7 +138,7 @@ gameApp.controller('formController', function($scope, $http, $window, factoryPro
 
             $http.post('/jeu/1', $scope.player())
                 .success(function(){
-                    $window.location.href = "/jeu/";
+                    $window.location.href = "/page/";
                 });
         } else {
             var message = "";

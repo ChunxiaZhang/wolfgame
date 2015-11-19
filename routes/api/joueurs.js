@@ -9,6 +9,10 @@ var pagesJeu = require('../../lib/pagesJeu.js');
 
 var router = express.Router();
 
+router.get('/currentPlayer', function(req, res){
+    res.json(req.session.joueur);
+});
+
 /**
  * Obtient la représentation du joueur.
  * @param id Id du joueur optionnel
@@ -19,6 +23,12 @@ router.get('/:id?', function(req, res) {
             if (err) {
                 res.send(err);
             } else if (joueur) {
+                //TODO Save joueur to session, but in get '/decision/:pageId', session.joueur is undifined
+                req.session.joueur = joueur; //add joueur to session
+                for (var item in req.session) {
+                    console.log("session: " + item);
+                }
+                console.log("save to session: " + req.session.joueur);
                 res.json(joueur);
             } else {
                 res.json({});
@@ -80,6 +90,7 @@ router.delete('/:id', function(req, res) {
     });
 });
 
+
 /**
  * Obtient l'avancement d'un joueur.
  * @param id Id du joueur
@@ -89,6 +100,8 @@ router.get('/avancement/:id', function(req, res) {
         if (err) {
             res.send(err);
         } else if (avancement) {
+            req.session.avancement = avancement;
+            console.log("save avancement: " + req.session.avancement);
             res.json(avancement);
         } else {
             res.json({});
@@ -121,13 +134,17 @@ router.put('/avancement/:joueurId', function(req, res) {
         if (err) {
             res.send(err);
         } else {
+            console.log("req.body.pageId:" + req.body.pageId);
+            console.log("req.body.sectionId:" + req.body.sectionId);
             avancement.pageId = req.body.pageId ? req.body.pageId : avancement.pageId;
             avancement.sectionId = req.body.sectionId ? req.body.sectionId : avancement.sectionId;
             avancement.combat = req.body.combat ? req.body.combat : avancement.combat;
+            console.log("update avancement pageId:" + avancement.pageId);
             avancement.save(function(err) {
                 if (err) {
                     res.send(err);
                 } else {
+                    console.log("update avancement to database")
                     res.json({message: "L'avancement du joueur " + req.params.joueurId + " a été correctement mis à jour."});
                 }
             });

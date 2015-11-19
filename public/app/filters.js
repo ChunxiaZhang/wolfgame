@@ -1,0 +1,3 @@
+gameApp.filter('checkPossessDiscipline', function(){
+
+});

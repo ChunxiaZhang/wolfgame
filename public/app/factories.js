@@ -18,6 +18,7 @@ gameApp.factory('factoryProperties', function($http){
     };
 });
 
+
 gameApp.factory('factoryPlayers', function($http){
     return {
         list: function(callback) {
@@ -27,7 +28,7 @@ gameApp.factory('factoryPlayers', function($http){
                 cache: true
             }).success(callback);
         },
-        findRecord: function(id, callback) {
+        findPlayer: function(id, callback) {
             $http({
                 method: 'GET',
                 url: 'http://localhost:3000/api/joueurs/'+ id,
@@ -40,32 +41,64 @@ gameApp.factory('factoryPlayers', function($http){
                 url: 'http://localhost:3000/api/joueurs/' + id,
                 cache: false
             }).success(callback);
+        },
+        currentPlayer: function(callback) {
+            $http({
+                method: 'GET',
+                url: 'http://localhost:3000/api/joueurs/currentPlayer/',
+                cache: true
+            }).success(callback);
         }
     };
 });
 
-gameApp.factory('pageIdentify', function(){
-    var identify = {
-        pageId: 1,
-        sectionId: 1
-    };
+gameApp.factory('factoryPages', function($http){
     return {
-        getPageId: function() {
-            console.log(" get identify.pageId: " + identify.pageId);
-            return identify.pageId;
+        page: function(pageId, sectionId, callback){
+            $http({
+                method: 'GET',
+                url: 'http://localhost:3000/api/pages/' + pageId + '/' + sectionId + '/',
+                cash: true
+            }).success(callback);
         },
-        setPageId: function(id) {
+        decision: function(pageId, callback){
+            $http({
+                method: 'GET',
+                url: 'http://localhost:3000/api/pages/decision/' + pageId + '/',
+                cash: true
+            }).success(callback);
+        },
+        decisionAleatoire: function(pageId, callback){
+            $http({
+                method: 'GET',
+                url: 'http://localhost:3000/api/pages/choixAleatoire/' + pageId + '/',
+                cash: true
+            }).success(callback);
+        }
+    };
+});
 
-           identify.pageId = id;
-            console.log("identify.pageId: " + identify.pageId);
-        },
-        getSectionId: function() {
-            console.log("get identify.sectionId: " + identify.sectionId);
-            return identify.sectionId;
-        },
-        setSectionId: function(id) {
-            identify.sectionId = id;
-            console.log("identify.sectionId: " + identify.sectionId);
+gameApp.factory('factoryCombatResult', function($http){
+    return {
+        result: function(ej, hj, em, hm, callback) {
+            $http({
+                method: 'GET',
+                url:'http://localhost:3000/api/' + ej + '/' + hj + '/' + em + '/' + hm + '/',
+                cash: true
+            }).success(callback);
+        }
+    };
+});
+
+gameApp.factory('factoryPageIdentify', function($http){
+    return {
+        identify: function(playerId, callback) {
+            console.log("get identify");
+            $http({
+                method: 'GET',
+                url:'http://localhost:3000/api/joueurs/avancement/' + playerId,
+                cash: true
+            }).success(callback);
         }
     };
 });

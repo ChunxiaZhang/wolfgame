@@ -12,10 +12,14 @@ block content
         section#histoire
             p(ng-repeat="paragraphe in contenu") {{paragraphe.text}}
 
-        section#decision
+        section(id="combat" ng-show="haveCombat")
+
+        section(id="ajouterObjets" ng-show="haveAjouterObjets")
+
+        section(id='decision' ng-show="haveDecision")
             h1 Decision
             div(ng-repeat="item in decision") {{item.text}}
-               a(href="#", ng-click="loadPage(item.pageId, item.sectionId)") turn to page {{item.pageId}}
+               a(href="#" ng-click="loadPage(item.pageId, item.sectionId)" ng-disable="!decisionsAreEnabled[$index]") turn to page {{item.pageId}}
 
         include ./stats.jade
 

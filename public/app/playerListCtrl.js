@@ -1,7 +1,7 @@
 /**
  * Created by Zoe on 2015-11-16.
  */
-gameApp.controller("playersListCtrl", function($scope, $http, $window, factoryPlayers, pageIdentify){
+gameApp.controller("playersListCtrl", function($scope, $http, $window, factoryPlayers, factoryPageIdentify){
     factoryPlayers.list(function(dbPlayers){
         $scope.dbPlayers = dbPlayers;
 
@@ -25,15 +25,13 @@ gameApp.controller("playersListCtrl", function($scope, $http, $window, factoryPl
     }
 
     $scope.restart = function(playerId) {
-        $http({
-            method: 'GET',
-            url:'http://localhost:3000/api/joueurs/avancement/' + playerId,
-            cash: true
-        }).success(function(data){
-            console.log("data.pageId: " + data.pageId + " data.sectionId:" + data.sectionId);
-            pageIdentify.setPageId(data.pageId);
-            pageIdentify.setSectionId(data.sectionId);
-            $window.location.href = "/jeu/";
+        factoryPlayers.findPlayer(playerId, function(data){
+            $scope.player = data;
+            console.log("get player data");
         });
+        /*factoryPageIdentify.identify(playerId, function(data){
+            $scope.pageIdentify = data;
+        });*/
+        $window.location.href = "/page/";
     }
 });

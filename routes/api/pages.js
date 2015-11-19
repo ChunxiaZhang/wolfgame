@@ -63,11 +63,16 @@ router.get('/decision/:pageId', function(req, res) {
         res.json({message: "Cette page n'a pas de choix possibles."});
     } else {
         var joueur = req.session.joueur;
-        console.log("session joueur: " + joueur.enduranceBase);
+        console.log("joueur: " + joueur);
+
         if (joueur == undefined) {
             res.json({message: "Le joueur n'existe pas dans la session."});
         } else {
+            console.log("choix.decision:" +choix.decision);
             var decisions = u.map(choix.decision, function(decision) {
+                console.log("decision.valid:" + decision.valid);
+                console.log("decision.page:" + decision.page);
+                //TODO question: sometimes there is un error: valid is not a function
                 decision.valid = decision.valid(joueur);
                 return decision;
             });
