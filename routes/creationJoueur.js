@@ -69,6 +69,7 @@ router.post('/jeu/1', function(req, res) {
                     console.log(response);
                 });
                 req.session.joueur = joueur;
+                console.log("save player to seesion: " + req.session.joueur._id);
                 //TODO if this is need?
                 res.redirect('/jeu/1');
             }

@@ -11,6 +11,7 @@ block content
 
         section#histoire
             p(ng-repeat="paragraphe in contenu") {{paragraphe.text}}
+            img(ng-src="contenu.img" width="193px" height="330px" ng-show="haveImg")
 
         include ./stats.jade
 
@@ -32,21 +33,25 @@ block content
                     p Chiffre aléatoire: {{ronde.chiffreAleatoire}}
                   div
                     p Ton ennemi a obtenu {{ronde.degatEnnemi}} dégâts -
-                    p et a maintenant {{combat.endurance - getEnnemPert()}} points d'endurance.
-                 div
+                    p et a maintenant {{ronde.currentEnduranceEnnemi}} points d'endurance.
                     p {{player.joueurNom}} a eu {{ronde.degatJoueur}} dégâts -
-                    p et a maintenant {{player.endurancePlus - getPlayerPert()}} points d'endurance.
+                    p et a maintenant {{ronde.currentEndurancePlayer}} points d'endurance.
 
-            div#choixCombat
+            div(id='choixCombat' ng-show="!combatFinish")
                 button(id="combattre.button" ng-click="combattre()")  COMBATTRE
                 br
                 button(id="fuir.button" ng-click="fuir()") FUIR
+            div(ng-show="combatFinish")
+                button(id="failed" ng-click="quitGame()" ng-show="!isPlayerWin && !isFuir") You failed! Game finish
+                p(ng-show="isPlayerWin") You win this combat. You can continue!
+                p(ng-show="isFuir") You quit game. You lost {{getPlayerPert()}} points. Now you have {{player.endurancePlus}}.
+
 
         section(id="ajouterObjets" ng-show="haveAjouterObjets")
 
 
 
-        section(id='decision' ng-show="haveDecision")
+        section(id='decision' ng-show="haveDecision && shouldShowDecision")
             h1 Decision
             div(ng-repeat="item in decision") {{item.text}}
               a(href="" ng-click="clickPageLink(item.pageId, item.sectionId, $index)" ng-class="{disabled: !item.isValid}") turn to page {{item.pageId}}

@@ -54,6 +54,7 @@ router.put('/:id', function(req, res) {
             joueur.armes = req.body.armes ? req.body.armes : joueur.armes;
             joueur.objets = req.body.objets ? req.body.objets : joueur.objets;
             joueur.objetsSpeciaux = req.body.objectsSpeciaux ? req.body.objetsSpeciaux : joueur.objetsSpeciaux;
+            joueur.endurancePlus = req.body.endurancePlus ? req.body.endurancePlus : joueur.endurancePlus; // update endurance
             joueur.save(function(err) {
                 if (err) {
                     res.send(err);
@@ -133,7 +134,7 @@ router.put('/avancement/:joueurId', function(req, res) {
             console.log("req.body.sectionId:" + req.body.sectionId);
             avancement.pageId = req.body.pageId ? req.body.pageId : avancement.pageId;
             avancement.sectionId = req.body.sectionId ? req.body.sectionId : avancement.sectionId;
-            avancement.combat = req.body.combat ? req.body.combat : avancement.combat;
+            avancement.combats = req.body.combats ? req.body.combats : avancement.combats;
             console.log("update avancement pageId:" + avancement.pageId);
             avancement.save(function(err) {
                 if (err) {
