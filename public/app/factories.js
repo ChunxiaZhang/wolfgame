@@ -83,7 +83,7 @@ gameApp.factory('factoryCombatResult', function($http){
         result: function(ej, hj, em, hm, callback) {
             $http({
                 method: 'GET',
-                url:'http://localhost:3000/api/' + ej + '/' + hj + '/' + em + '/' + hm + '/',
+                url:'http://localhost:3000/api/combat/' + ej + '/' + hj + '/' + em + '/' + hm + '/',
                 cash: true
             }).success(callback);
         }

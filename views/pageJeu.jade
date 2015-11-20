@@ -12,16 +12,44 @@ block content
         section#histoire
             p(ng-repeat="paragraphe in contenu") {{paragraphe.text}}
 
+        include ./stats.jade
+
         section(id="combat" ng-show="haveCombat")
+            div#monstre
+                span#nomMonstre {{combat.nom}}:
+                | HABILETÉ
+                span#monstreAttaque {{combat.habilete}}
+                | ENDURANCE
+                span#monstreEndurance {{combat.endurance}}
+
+            div(class="rondeCombat" ng-show="haveRonde")
+                div(ng-repeat="ronde in rondes")
+                  div
+                    | Ronde combat:
+                    span {{$index + 1}}
+                  div
+                    p Ratio de combat: {{ronde.quotientAttaque}}
+                    p Chiffre aléatoire: {{ronde.chiffreAleatoire}}
+                  div
+                    p Ton ennemi a obtenu {{ronde.degatEnnemi}} dégâts -
+                    p et a maintenant {{combat.endurance - getEnnemPert()}} points d'endurance.
+                 div
+                    p {{player.joueurNom}} a eu {{ronde.degatJoueur}} dégâts -
+                    p et a maintenant {{player.endurancePlus - getPlayerPert()}} points d'endurance.
+
+            div#choixCombat
+                button(id="combattre.button" ng-click="combattre()")  COMBATTRE
+                br
+                button(id="fuir.button" ng-click="fuir()") FUIR
 
         section(id="ajouterObjets" ng-show="haveAjouterObjets")
 
-        include ./stats.jade
+
 
         section(id='decision' ng-show="haveDecision")
             h1 Decision
             div(ng-repeat="item in decision") {{item.text}}
-              a(href="" ng-click="loadPage(item.pageId, item.sectionId)" ng-class="{disabled: !choixPossible(item.pageId)}") turn to page {{item.pageId}}
+              a(href="" ng-click="clickPageLink(item.pageId, item.sectionId, $index)" ng-class="{disabled: !item.isValid}") turn to page {{item.pageId}}
 
 
 

@@ -68,12 +68,8 @@ router.get('/decision/:pageId', function(req, res) {
         if (joueur == undefined) {
             res.json({message: "Le joueur n'existe pas dans la session."});
         } else {
-            console.log("choix.decision:" +choix.decision);
             var decisions = u.map(choix.decision, function(decision) {
-                console.log("decision.valid:" + decision.valid);
-                console.log("decision.page:" + decision.page);
-                //TODO question: sometimes there is un error: valid is not a function
-                decision.valid = decision.valid(joueur);
+                decision.isValid = decision.valid(joueur);
                 return decision;
             });
             res.json(decisions);

@@ -5,6 +5,7 @@ gameApp.controller('jeuPageController', function($scope, $routeParams, $http,
                                                  factoryPlayers, factoryCombatResult, factoryPages, factoryPageIdentify){
 
     $scope.haveCombat = false;
+    $scope.haveRonde = false;
     $scope.haveDecision = false;
     $scope.haveAjouterObjets = false;
     factoryPlayers.currentPlayer(function(data){
@@ -22,13 +23,18 @@ gameApp.controller('jeuPageController', function($scope, $routeParams, $http,
             console.log("$scope.identify: "+$scope.identify);
             $scope.numeroPage = $scope.identify.pageId;
 
+            if($scope.identify.combats || $scope.identify.combats.length > 0) {
+                $scope.haveRondeCombat = true;
+            }
             $scope.loadPage($scope.identify.pageId, $scope.identify.sectionId);
         });
     });
-    $scope.loadPage = function(pageId, sectionId) {
-        if(!$scope.choixPossible(pageId)) {
-            return;
+    $scope.clickPageLink = function(pageId, sectionId, $index) {
+        if($scope.decision[$index].isValid){
+            $scope.loadPage(pageId, sectionId);
         }
+    }
+    $scope.loadPage = function(pageId, sectionId) {
         console.log("pageId:" + pageId + " sectionId: " + sectionId);
         $scope.numeroPage = pageId;
         factoryPages.page(pageId, sectionId, function(data){
@@ -70,37 +76,39 @@ gameApp.controller('jeuPageController', function($scope, $routeParams, $http,
                 console.log("update avancement to " + pageId);
             });
     }
-
-    $scope.combattre = function(){
-        //TODO when click "combattre"
-        factoryCombatResult.result($scope.player.endurance, $scope.player.habilete,
-            $scope.combat.endurance,$scope.combat.habilete,function(data){
-                $scope.result = data;
+    $scope.rondes = [];
+    $scope.getPlayerPert = function(){
+        if($scope.rondes && $scope.rondes.length > 0) {
+            return $scope.rondes.reduce(function (a, b) {
+                return a.degatJoueur + b.degatJoueur;
             });
+        } else {
+            return 0;
+        }
+    }
+    $scope.getEnnemPert = function(){
+        if($scope.rondes && $scope.rondes.length > 0) {
+            return $scope.rondes.reduce(function (a, b) {
+                return a.degatEnnemi + b.degatEnnemi;
+            });
+        } else {
+            return 0;
+        }
+    }
+    $scope.combattre = function(){
+        $scope.haveRonde = true;
+        factoryCombatResult.result($scope.player.endurancePlus - $scope.getPlayerPert(), $scope.player.habiletePlus,
+            $scope.combat.endurance - $scope.getEnnemPert(), $scope.combat.habilete,function(data){
+                $scope.rondes.push(data);
+            });
+
     };
 
-    $scope.choixPossible = function(possibleId) {
-        console.log("if it's possible");
-        if($scope.numeroPage == 160 && possibleId == 204) {
-            if($scope.player.disciplines.indexOf("chasse") < 0) {
-                console.log("for 204, not possible");
-                return false;
-            } else {
-                console.log("for 204, possible");
-                return true;
-            }
-        }
-        if($scope.numeroPage == 160 && possibleId == 318) {
-            if($scope.player.disciplines.indexOf("communicationAnimale") < 0) {
-                console.log("for 318, not possible");
-                return false;
-            } else {
-                console.log("for 318, possible");
-                return true;
-            }
-        }
-        console.log("possible");
-        return true;
+    $scope.fuir = function(){
+        $scope.player.endurancePlus -= $scope.getPlayerPert();
+        $scope.put('http://localhost:3000/api/joueurs/'+ $scope.player._id, $scope.player).success(function(){
+            console.log("update player data");
+        });
     }
 
 });
