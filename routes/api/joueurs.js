@@ -127,20 +127,21 @@ router.post('/avancement/:joueurId', function(req, res) {
  */
 router.put('/avancement/:joueurId', function(req, res) {
     Avancement.findOne({joueurId: req.params.joueurId}, function(err, avancement) {
+        console.log("update avancement starting");
         if (err) {
+            console.log("update avancement error 1");
             res.send(err);
         } else {
-            console.log("req.body.pageId:" + req.body.pageId);
-            console.log("req.body.sectionId:" + req.body.sectionId);
             avancement.pageId = req.body.pageId ? req.body.pageId : avancement.pageId;
             avancement.sectionId = req.body.sectionId ? req.body.sectionId : avancement.sectionId;
             avancement.combats = req.body.combats ? req.body.combats : avancement.combats;
-            console.log("update avancement pageId:" + avancement.pageId);
+            avancement.decisionPossible = req.body.decisionPossible ? req.body.decisionPossible : avancement.decisionPossible;
             avancement.save(function(err) {
                 if (err) {
+                    console.log("update avancement error");
                     res.send(err);
                 } else {
-                    console.log("update avancement to database")
+                    console.log("update avancement success");
                     res.json({message: "L'avancement du joueur " + req.params.joueurId + " a été correctement mis à jour."});
                 }
             });

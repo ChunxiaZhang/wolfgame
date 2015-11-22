@@ -18,12 +18,11 @@ router.get('/creationJoueur', function(req, res, next) {
 // POST page de création du joueur
 router.post('/jeu/1', function(req, res) {
     var erreursMsg = [];
-
     // Récupération des données du formulaire
     var disciplines = (req.body.disciplines) ? [].concat(req.body.disciplines) : [];
     var armes = (req.body.armes) ? [].concat(req.body.armes) : [];
     var objets = (req.body.objets) ? [].concat(req.body.objets) : [];
-    var objetsSpeciaux = (req.body.objectsSpeciaux) ? [].concat(req.body.objectsSpeciaux) : [];
+    var objetsSpeciaux = (req.body.objetsSpeciaux) ? [].concat(req.body.objetsSpeciaux) : [];
 
     // Traitement des disciplines choisies
     var NB_DISCIPLINE = 5;

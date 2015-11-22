@@ -4,57 +4,33 @@ block head
     link(rel="stylesheet", href="/stylesheets/pageJeu.css")
 
 block content
-    main(ng-controller="jeuPageController")
+    main(ng-controller="PagesController")
         div#title
             img(src="/images/pageTitre.png")
             p#numeroPage {{numeroPage}}
 
-        section#histoire
-            p(ng-repeat="paragraphe in contenu") {{paragraphe.text}}
-            img(ng-src="contenu.img" width="193px" height="330px" ng-show="haveImg")
+        section(id="histoire" ng-repeat="section in sections")
+            div(id="contenu" ng-show="section.contenu.length > 0" ng-repeat="item in section.contenu")
+                p(ng-show="item.text") {{item.text}}
+                img(class="avantTexte" ng-show="item.img" src="{{item.img}}")
 
-        include ./stats.jade
+            div(ng-show="section.combat | haveProperty" id="combat" combat-part combat="combat" player="player" identify="identify")
 
-        section(id="combat" ng-show="haveCombat")
-            div#monstre
-                span#nomMonstre {{combat.nom}}:
-                | HABILETÉ
-                span#monstreAttaque {{combat.habilete}}
-                | ENDURANCE
-                span#monstreEndurance {{combat.endurance}}
+            form(id="ajouterObjets" name="ajouterObjetsForm" ng-show="section.ajouterObjets | haveProperty")
+                fieldset
+                    legend {{ajouterObjets.text}}
+                    div(ng-repeat="item in ajouterObjets.items")
+                        label
+                            input(type="checkbox" name="specialObjet" ng-model="item.checked")
+                            | {{item.value}}
+                    button(class="button" ng-click="ajouterSpecialObjets()") Ajouter!
+            div
+                button(class="button" ng-show="section.confirmation && !isConfirm" ng-click="confirmer()") Confirmer!
 
-            div(class="rondeCombat" ng-show="haveRonde")
-                div(ng-repeat="ronde in rondes")
-                  div
-                    | Ronde combat:
-                    span {{$index + 1}}
-                  div
-                    p Ratio de combat: {{ronde.quotientAttaque}}
-                    p Chiffre aléatoire: {{ronde.chiffreAleatoire}}
-                  div
-                    p Ton ennemi a obtenu {{ronde.degatEnnemi}} dégâts -
-                    p et a maintenant {{ronde.currentEnduranceEnnemi}} points d'endurance.
-                    p {{player.joueurNom}} a eu {{ronde.degatJoueur}} dégâts -
-                    p et a maintenant {{ronde.currentEndurancePlayer}} points d'endurance.
+            section(id='decision' ng-show="section.decision")
+                h1 Decision
+                div(ng-repeat="item in decisions") {{item.text}}
+                    a(href="" ng-click="clickPageLink(item.pageId, item.sectionId, $index)" ng-show="isNormalDecision" ng-class="{disabled: !item.isValid}") turn to page {{item.pageId}}
+                    a(href="" ng-click="clickPageLink(item.pageId, item.sectionId, $index)" ng-show="!isNormalDecision" ng-class="{disabled: !item.isValid}") turn to page {{item.pageId}}
 
-            div(id='choixCombat' ng-show="!combatFinish")
-                button(id="combattre.button" ng-click="combattre()")  COMBATTRE
-                br
-                button(id="fuir.button" ng-click="fuir()") FUIR
-            div(ng-show="combatFinish")
-                button(id="failed" ng-click="quitGame()" ng-show="!isPlayerWin && !isFuir") You failed! Game finish
-                p(ng-show="isPlayerWin") You win this combat. You can continue!
-                p(ng-show="isFuir") You quit game. You lost {{getPlayerPert()}} points. Now you have {{player.endurancePlus}}.
-
-
-        section(id="ajouterObjets" ng-show="haveAjouterObjets")
-
-
-
-        section(id='decision' ng-show="haveDecision && shouldShowDecision")
-            h1 Decision
-            div(ng-repeat="item in decision") {{item.text}}
-              a(href="" ng-click="clickPageLink(item.pageId, item.sectionId, $index)" ng-class="{disabled: !item.isValid}") turn to page {{item.pageId}}
-
-
-
+        section(id="stats" stats-part player="player")

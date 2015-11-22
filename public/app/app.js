@@ -1,6 +1,8 @@
 var gameApp = angular.module('gameApp', [
     'ngMessages',
-    'ngRoute'
+    'ngRoute',
+    'ui.bootstrap',
+    'angularModalService'
 ])
 
 

@@ -48,19 +48,19 @@
     "checked": false
   },
   {
-    "name": "objet",
+    "name": "objets",
     "value": "potionLampsur",
     "message": "Potion de Lampsur (Objet dans le sac à dos)",
     "checked": false
   },
   {
-    "name": "objet",
+    "name": "objets",
     "value": "rationsSpeciales",
     "message": "Rations spéciales (Objet dans le sac à dos)",
     "checked": false
   },
   {
-    "name": "objetSpecial",
+    "name": "objetsSpeciaux",
     "value": "giletCuirMartele",
     "message": "Gilet de Cuir Martelé (Objet Spécial)",
     "checked": false

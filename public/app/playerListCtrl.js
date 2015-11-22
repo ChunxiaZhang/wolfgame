@@ -29,9 +29,6 @@ gameApp.controller("playersListCtrl", function($scope, $http, $window, factoryPl
             $scope.player = data;
             console.log("get player data");
         });
-        /*factoryPageIdentify.identify(playerId, function(data){
-            $scope.pageIdentify = data;
-        });*/
         $window.location.href = "/page/";
     }
 });

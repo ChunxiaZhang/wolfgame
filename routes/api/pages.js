@@ -6,6 +6,7 @@ var constantes = require('../../lib/constantes.js');
 var pagesJeu = require('../../lib/pagesJeu.js');
 var d = require('../../lib/decision.js')
 var da = require('../../lib/decisionsAleatoire.js');
+var p = require('../../lib/perte.js');
 
 var router = express.Router();
 
@@ -41,10 +42,10 @@ router.get('/choixAleatoire/:pageId', function(req, res) {
             var decisions = u.map(choix.decision, function(decision) {
                 decision.valeurAleatoire = valeurAleatoire;
                 if (decision.min <= valeurAleatoire && decision.max >= valeurAleatoire) {
-                    decision.valid = true;
+                    decision.isValid = true;
                     return decision;
                 } else {
-                    decision.valid = false;
+                    decision.isValid = false;
                     return decision;
                 }
             });
@@ -52,6 +53,29 @@ router.get('/choixAleatoire/:pageId', function(req, res) {
         }
     }
 });
+
+// ajouterObjets
+
+router.get('/confirmation/:pageId', function(req, res) {
+    var id = req.params.pageId;
+    var choix = u.find(da.decisionsAleatoire, function(page) {
+        return page.id == id;
+    });
+
+    // Si la page n'a pas de décision aléatoire, on retourne un JSON vide.
+    if (choix == undefined) {
+        res.json({message: "Cette page n'a pas de perte."});
+    } else {
+        var joueur = req.session.joueur;
+        if (joueur == undefined) {
+            res.json({message: "Le joueur n'existe pas dans la session."});
+        } else {
+            var valeurPerte = choix.f(joueur);
+            res.json(valeurPerte);
+        }
+    }
+});
+
 
 router.get('/decision/:pageId', function(req, res) {
     var id = req.params.pageId;

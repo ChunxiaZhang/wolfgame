@@ -1,0 +1,27 @@
+<div>
+    <div id="monstre"><span id="nomMonstre">{{combat.nom}}:</span>HABILETÉ<span id="monstreAttaque">{{combat.habilete}}</span>ENDURANCE<span id="monstreEndurance">{{combat.endurance}}</span></div>
+    <div ng-show="rondes.length &gt; 0" class="rondeCombat">
+        <div ng-repeat="ronde in rondes">
+            <div>Ronde combat:<span>{{$index + 1}}</span></div>
+            <div>
+                <p>Ratio de combat: {{ronde.quotientAttaque}}</p>
+                <p>Chiffre aléatoire: {{ronde.chiffreAleatoire}}</p>
+            </div>
+            <div>
+                <p>Ton ennemi a obtenu {{ronde.degatEnnemi}} dégâts -</p>
+                <p>et a maintenant {{ronde.currentEnduranceEnnemi}} points d'endurance.</p>
+                <p>{{player.joueurNom}} a eu {{ronde.degatJoueur}} dégâts -</p>
+                <p>et a maintenant {{ronde.currentEndurancePlayer}} points d'endurance.</p>
+            </div>
+        </div>
+    </div>
+    <div id="choixCombat" ng-show="!combatFinish">
+        <button id="combattre.button" ng-click="combattre()"> COMBATTRE</button><br/>
+        <button id="fuir.button" ng-click="fuir()">FUIR</button>
+    </div>
+    <div ng-show="combatFinish">
+        <button id="failed" ng-click="quitGame()" ng-show="!isPlayerWin &amp;&amp; !isFuir">You failed! Game finish</button>
+        <p ng-show="isPlayerWin">You win this combat. You can continue!</p>
+        <p ng-show="isFuir">You quit game. You lost {{getPlayerPert()}} points. Now you have {{player.endurancePlus}}.</p>
+    </div>
+</div>

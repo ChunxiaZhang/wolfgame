@@ -175,11 +175,11 @@ p {
     top: -100px;
     display: inline-block;
     width: 425px;
-    height: 700px;
+    height: 900px;
     vertical-align: top;
     margin: 0;
     background-image: url("/images/scroll.gif");
-    background-size: 425px 700px;
+    background-size: 425px 900px;
     background-repeat: no-repeat;
 }
 
@@ -225,7 +225,7 @@ p {
     list-style: none;
 }
 
-#disciplines li {
+#disciplines li, #armes li {
     text-align: center;
     margin: 10px 0 20px 0;
 }

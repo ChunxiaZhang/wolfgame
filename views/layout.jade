@@ -15,15 +15,20 @@ html(ng-app="gameApp")
                 a#reglesJeu(href="/aide") Règles du jeu
 
     block content
+    script(src="./../angularjs/jquery-1.11.3.js")
     script(src="./../angularjs/angular.js")
     script(src="./../angularjs/angular-route.min.js")
     script(src="./../angularjs/angular-messages.min.js")
+    script(src="./../angularjs/angular-modal-service.min.js")
+    script(src="./../angularjs/ui-bootstrap-tpls-0.14.3.min.js")
+    script(src="./../angularjs/bootstrap.js")
     script(src="./../app/app.js")
     script(src="./../app/factories.js")
     script(src="./../app/formController.js")
-    script(src="./../app/jeuPageController.js")
     script(src="./../app/playerListCtrl.js")
-
+    script(src="./../app/PagesController.js")
+    script(src="./../app/directives.js")
+    script(src="./../app/filters.js")
 
     footer
         p Les Grottes de Kalte - Lone Wolf

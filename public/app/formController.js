@@ -104,20 +104,22 @@ gameApp.controller('formController', function($scope, $http, $window, factoryPro
 
         var values = [];
         $scope.equipmentsScope.forEach(function(obj){
-            if(obj.checked && obj.name=="objet") {
+            if(obj.checked && obj.name=="objets") {
                 values.push(obj.value);
             }
         });
+        console.log("objets: " + values);
         return values;
     }
     $scope.getObjetsSpeciauxValues = function() {
 
         var values = [];
         $scope.equipmentsScope.forEach(function(obj){
-            if(obj.checked && obj.name=="objetSpecial") {
+            if(obj.checked && obj.name=="objetsSpeciaux") {
                 values.push(obj.value);
             }
         });
+        console.log("objetsSpeciaux: " + values);
         return values;
     }
 

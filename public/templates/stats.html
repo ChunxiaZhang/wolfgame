@@ -1,0 +1,55 @@
+<div>
+    <p>Feuille d'Aventure
+        <table>
+            <tbody>
+            <tr>
+                <td><img src="/images/points_endurance.png"/></td>
+                <td>
+    <p><span id="endurance_restante">{{player.endurancePlus}}</span> / <span id="endurance_total">{{player.enduranceBase}}</span></p>
+    </td>
+    </tr>
+    <tr>
+        <td><img src="/images/points_habilete.png"/></td>
+        <td>
+            <p id="habilete">{{player.habiletePlus}}</p>
+        </td>
+    </tr>
+    <tr>
+        <td><img src="/images/pieces_or.png"/></td>
+        <td>
+            <p><span id="pieceOr">{{player.pieceOr}}</span> / <span id="pieceOr_total">50</span></p>
+        </td>
+    </tr>
+    </tbody>
+    </table>
+    <div>
+        <p>Disciplines Kai</p>
+        <ul id="disciplines">
+            <li ng-repeat="disc in player.disciplines">{{disc}}</li>
+        </ul>
+    </div>
+    <div ng-show="player.armes.length &gt; 0">
+        <p>Armes</p>
+        <ul id="armes">
+            <li ng-repeat="arme in player.armes">{{arme}}</li>
+        </ul>
+    </div>
+    <p><a href="#sacADos" class="button">Sac à dos</a></p>
+    <div id="sacADos"><a id="fermerSacADos" href="#"></a><img src="/images/backpack.png"/>
+        <div>
+            <div ng-show="player.objets.length &gt; 0">
+                <p>Objets</p>
+                <ul>
+                    <li ng-repeat="objet in player.objets">{{objet}}</li>
+                </ul>
+            </div>
+            <div ng-show="player.objetsSpeciaux.length &gt; 0">
+                <p>Objets Spéciaux</p>
+                <ul>
+                    <li ng-repeat="special in player.objetsSpeciaux">{{special}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </p>
+</div>
