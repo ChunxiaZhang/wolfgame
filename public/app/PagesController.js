@@ -27,19 +27,19 @@ gameApp.controller('PagesController', function($scope, $http, factoryPlayers, fa
 
     $scope.loadSection = function(pageId, sectionId){
         $scope.numeroPage = pageId;
-
+        console.log("start load section");
         $http.get("/api/pages/" + pageId + "/" + sectionId + "/").success(function(data){
             $scope.sections.push(data);
             if(data.combat) {
-                $scope.combat = jQuery.extend(true, {}, data.combat);
+                $scope.combat = angular.copy(data.combat);
             }
             if(data.decision) {
                 $http.get(data.decision + '/' + pageId + '/').success(function(data){
-                    $scope.decisions =  jQuery.extend(true, {}, data);
+                    $scope.decisions =  angular.copy(data);
                 });
             }
             if(data.ajouterObjets){
-                $scope.ajouterObjets = jQuery.extend(true, {}, data.ajouterObjets);
+                $scope.ajouterObjets = angular.copy(data.ajouterObjets);
             }
             if(data.confirmation){
                 $scope.confirmation = data.confirmation;
@@ -77,7 +77,7 @@ gameApp.controller('PagesController', function($scope, $http, factoryPlayers, fa
             }
         }
         // load next section
-        $scope.loadSection($scope.identify.pageId, $scope.identify.sectionId);
+        $scope.loadSection($scope.identify.pageId, $scope.identify.sectionId + 1);
         if(isChoose) {
             $http.put('http://localhost:3000/api/joueurs/'+ $scope.player._id, $scope.player).success(function(){
                 console.log("update player data");

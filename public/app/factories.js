@@ -49,6 +49,7 @@ gameApp.factory('factoryPlayers', function($http){
 gameApp.factory('factoryPages', function($http){
     return {
         page: function(pageId, sectionId, callback){
+
             $http({
                 method: 'GET',
                 url: 'http://localhost:3000/api/pages/' + pageId + '/' + sectionId + '/'
