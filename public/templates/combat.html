@@ -16,11 +16,12 @@
         </div>
     </div>
     <div id="choixCombat" ng-show="!combatFinish">
-        <button id="combattre.button" ng-click="combattre()"> COMBATTRE</button><br/>
-        <button id="fuir.button" ng-click="fuir()">FUIR</button>
+        <button class="button" id="combattre.button" ng-click="combattre(false)"> COMBATTRE</button><br/>
+        <button class="button" id="puissance.button" ng-show="havePuissancePsychique" ng-click="combattre(true)">COMBATRE AVEC PUISSANCE PSYCHIQUE</button>
+        <button class="button" id="fuir.button" ng-click="fuir()">FUIR</button>
     </div>
     <div ng-show="combatFinish">
-        <button id="failed" ng-click="quitGame()" ng-show="!isPlayerWin &amp;&amp; !isFuir">You failed! Game finish</button>
+        <p ng-show="!isPlayerWin &amp;&amp; !isFuir">You failed! Game finish</p>
         <p ng-show="isPlayerWin">You win this combat. You can continue!</p>
         <p ng-show="isFuir">You quit game. You lost {{getPlayerPert()}} points. Now you have {{player.endurancePlus}}.</p>
     </div>

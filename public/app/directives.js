@@ -1,28 +1,61 @@
+gameApp.directive('combatPart', function(){
+    return {
+        restrict: 'A',
+        scope: {
+            combat: '=',
+            player: '=',
+            identify: '=',
+            isPlayerWin: '=',
+            isFuir: '=',
+            combatFinish: '='
+        },
+        templateUrl: "/templates/combat.html",
+        controller: 'CombatController'
+    }
+});
+
+gameApp.directive('statsPart', function(){
+    return {
+        restrict: 'A',
+        scope: {
+            player: '='
+        },
+        templateUrl: "/templates/stats.html",
+        controller: function($scope, $interval) {
+            /*$interval(function(){
+             console.log("Hi, after 2 seconds");
+             }, 2000);*/
+        }
+    }
+});
+
 gameApp.controller('CombatController', function($scope, $http){
-    console.log("player: " + $scope.player);
-    console.log("player from directives: " + $scope.player.endurancePlus);
     $scope.rondes = [];
     $scope.isFuir = false;
     $scope.combatFinish = false;
+
+
+    if($scope.player.disciplines.indexOf("puissancePsychique") < 0) {
+        $scope.havePuissancePsychique = false;
+    } else {
+        $scope.havePuissancePsychique = true;
+    }
     // Click combattre button start a ronde
-    $scope.combattre = function(){
+    $scope.combattre = function(withPuissance){
         $http.get('http://localhost:3000/api/combat/' + ($scope.player.endurancePlus - $scope.getPlayerPert()) + '/'
                 + $scope.player.habiletePlus + '/' + ($scope.combat.endurance - $scope.getEnnemPert()) + '/' + $scope.combat.habilete)
             .success(function(data){
                 $scope.rondes.push(data);
-                $scope.rondes[$scope.rondes.length-1].currentEndurancePlayer = $scope.player.endurancePlus - $scope.getPlayerPert();
+                var bonnus = 0;
+                if($scope.havePuissancePsychique) {
+                    bonnus = 2;
+                }
+                $scope.rondes[$scope.rondes.length-1].currentEndurancePlayer = $scope.player.endurancePlus - $scope.getPlayerPert() + bonnus;
                 $scope.rondes[$scope.rondes.length-1].currentEnduranceEnnemi = $scope.combat.endurance - $scope.getEnnemPert();
                 $scope.gameStatus();
             });
 
     };
-    // Click fuir button quite game
-    $scope.quitGame = function(){
-        $http.delete('http://localhost:3000/api/joueurs/' + $scope.player._id).success(function(){
-            console.log("delete player:" + $scope.player._id);
-        });
-        $window.location.href = "/";
-    }
 
     $scope.getPlayerPert = function(){
         if($scope.rondes && $scope.rondes.length > 0) {
@@ -85,13 +118,16 @@ gameApp.controller('CombatController', function($scope, $http){
 
             if($scope.isPlayerWin && $scope.combatFinish) {
                 console.log("load section from directive");
-                $scope.loadSection($scope.identify.pageId, $scope.identify.section + 1);
+                console.log("sectionId: " + ($scope.identify.sectionId + 1));
+                $scope.identify.sectionId += 1;
+                $scope.$parent.loadSection($scope.identify.pageId, $scope.identify.sectionId);
             }
         }
     };
 
     $scope.fuir = function(){
-        $scope.loadSection($scope.identify.pageId, $scope.identify+1);
+        $scope.identify.sectionId += 1;
+        $scope.loadSection($scope.identify.pageId, $scope.identify);
         $scope.isFuir = true;
         $scope.combatFinish = true;
         $scope.player.endurancePlus -= $scope.getPlayerPert();
@@ -99,36 +135,8 @@ gameApp.controller('CombatController', function($scope, $http){
             console.log("update player data");
         });
     }
+
 })
 
-gameApp.directive('combatPart', function(){
-    return {
-        restrict: 'A',
-        scope: {
-            combat: '=',
-            player: '=',
-            identify: '=',
-            isPlayerWin: '=',
-            combatFinish: '=',
-            loadSection: '&'
-        },
-        templateUrl: "/templates/combat.html",
-        controller: 'CombatController'
-    }
-});
 
-gameApp.directive('statsPart', function(){
-    return {
-        restrict: 'A',
-        scope: {
-            player: '='
-        },
-        templateUrl: "/templates/stats.html",
-        controller: function($scope, $interval) {
-            /*$interval(function(){
-                console.log("Hi, after 2 seconds");
-            }, 2000);*/
-        }
-    }
-});
 

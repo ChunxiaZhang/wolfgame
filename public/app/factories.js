@@ -12,6 +12,12 @@ gameApp.factory('factoryProperties', function($http){
                 method: 'GET',
                 url: './../json/equipments.json'
             }).success(callback);
+        },
+        specialObjectsList: function(callback) {
+            $http({
+                method: 'GET',
+                url: './../json/specialObjects.json'
+            }).success(callback);
         }
     };
 });

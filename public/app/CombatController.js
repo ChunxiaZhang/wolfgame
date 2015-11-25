@@ -1,4 +1,4 @@
-gameApp.controller('CombatController', function($scope, $http){
+gameApp.controller('CombatController', ['$scope', '$http', 'factoryPlayers', function($scope, $http, factoryPlayers){
     $scope.rondes = [];
     $scope.isFuir = false;
     $scope.combatFinish = false;
@@ -14,13 +14,6 @@ gameApp.controller('CombatController', function($scope, $http){
             });
 
     };
-    // Click fuir button quite game
-    $scope.quitGame = function(){
-        factoryPlayers.deletePlayer($scope.player._id, function(){
-            console.log("delete player:" + $scope.player._id);
-        });
-        $window.location.href = "/";
-    }
 
     $scope.getPlayerPert = function(){
         if($scope.rondes && $scope.rondes.length > 0) {
@@ -81,6 +74,9 @@ gameApp.controller('CombatController', function($scope, $http){
             if (endurancePlayer <= 0) {
                 $scope.shouldShowDecision = false;
                 $scope.isPlayerWin = false;
+                factoryPlayers.deletePlayer($scope.player._id, function(){
+                    console.log("delete player:" + $scope.player._id);
+                });
             }
         }
     };
@@ -94,4 +90,4 @@ gameApp.controller('CombatController', function($scope, $http){
             console.log("update player data");
         });
     }
-});
+}]);

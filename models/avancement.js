@@ -7,12 +7,6 @@ var rondeShema = new Schema({
     ennemiDegats: Number,
     playerDegats: Number
 });
-var combatSchema = new Schema({
-    nom: String,
-    habilete: Number,
-    endurance: Number,
-    rondes: [rondeShema]
-});
 
 var decisionSchema = new Schema({
     page: String,
@@ -26,7 +20,12 @@ var AvancementSchema = new Schema({
     pageId: Number,
     sectionId: Number,
     joueurId: Schema.Types.ObjectId,
-    combats: combatSchema,
+    combats: {
+        nom: String,
+        habilete: Number,
+        endurance: Number,
+        rondes: [rondeShema]
+    },
     decisionPossible: [decisionSchema]
 });
 

@@ -1,4 +1,4 @@
-gameApp.controller('PagesController', function($scope, $http, factoryPlayers, factoryPageIdentify){
+gameApp.controller('PagesController', ['$scope', '$http', 'ModalService', 'factoryPlayers', function($scope, $http, ModalService, factoryPlayers){
 
     $scope.player = {};
 
@@ -9,6 +9,7 @@ gameApp.controller('PagesController', function($scope, $http, factoryPlayers, fa
         $scope.ajouterObjets = {};
         $scope.confirmation = '';
         $scope.isConfirm = false;
+        $scope.isAjoute = false;
     }
     $scope.initialData();
     factoryPlayers.currentPlayer(function(data){
@@ -26,9 +27,11 @@ gameApp.controller('PagesController', function($scope, $http, factoryPlayers, fa
     });
 
     $scope.loadSection = function(pageId, sectionId){
+
         $scope.numeroPage = pageId;
-        console.log("start load section");
+        console.log("start load section: " + sectionId);
         $http.get("/api/pages/" + pageId + "/" + sectionId + "/").success(function(data){
+
             $scope.sections.push(data);
             if(data.combat) {
                 $scope.combat = angular.copy(data.combat);
@@ -46,7 +49,21 @@ gameApp.controller('PagesController', function($scope, $http, factoryPlayers, fa
             }
         });
         $scope.identify = {pageId: pageId, sectionId: sectionId};
-        $scope.avancer(pageId, sectionId);
+        if(pageId == 91){
+            $scope.player.objetsSpeciaux.push("huileBakanal");
+            $http.put('http://localhost:3000/api/joueurs/'+ $scope.player._id, $scope.player).success(function(){
+                console.log("update player data");
+            });
+            $scope.showConfirmModal();
+        }
+        if(pageId == 339 || pageId == 248) {
+            factoryPlayers.deletePlayer($scope.player._id, function(){
+                console.log("delete player:" + $scope.player._id);
+            });
+        } else {
+            $scope.avancer(pageId, sectionId);
+        }
+
     }
 
     $scope.avancer = function(pageId, sectionId) {
@@ -66,6 +83,7 @@ gameApp.controller('PagesController', function($scope, $http, factoryPlayers, fa
 
     // for page 12 and 57
     $scope.ajouterSpecialObjets = function(){
+        $scope.isAjoute = true;
         var i = 0;
         var length = $scope.ajouterObjets.items.length;
         console.log(length);
@@ -77,7 +95,8 @@ gameApp.controller('PagesController', function($scope, $http, factoryPlayers, fa
             }
         }
         // load next section
-        $scope.loadSection($scope.identify.pageId, $scope.identify.sectionId + 1);
+        $scope.identify.sectionId += 1;
+        $scope.loadSection($scope.identify.pageId, $scope.identify.sectionId);
         if(isChoose) {
             $http.put('http://localhost:3000/api/joueurs/'+ $scope.player._id, $scope.player).success(function(){
                 console.log("update player data");
@@ -90,4 +109,17 @@ gameApp.controller('PagesController', function($scope, $http, factoryPlayers, fa
         $http.get($scope.confirmation + '/' + $scope.identify.pageId + '/').success(function(data){});
         $scope.loadSection($scope.identify.pageId, $scope.identify.sectionId+1);
     }
-});
+
+    $scope.showConfirmModal = function() {
+        ModalService.showModal({
+            templateUrl: "/templates/confirm.html",
+            controller: ['$scope', 'close', function($scope, close) {
+                $scope.close = function(result) {
+                    close(result, 500);
+                };
+            }]
+        }).then(function(modal){
+            modal.element.modal();
+        });
+    }
+}]);

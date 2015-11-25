@@ -14,9 +14,9 @@ block content
                 p(ng-show="item.text") {{item.text}}
                 img(class="avantTexte" ng-show="item.img" src="{{item.img}}")
 
-            div(ng-show="section.combat | haveProperty" id="combat" combat-part combat="combat" player="player" identify="identify")
+            div(combat-part ng-show="section.combat | haveProperty" id="combat" combat="combat" player="player" identify="identify" isPlayerWin="isPlayerWin" isFuir="isFuir" combatFinish="combatFinish")
 
-            form(id="ajouterObjets" name="ajouterObjetsForm" ng-show="section.ajouterObjets | haveProperty")
+            form(id="ajouterObjets" name="ajouterObjetsForm" ng-show="!isAjoute && (section.ajouterObjets | haveProperty)")
                 fieldset
                     legend {{ajouterObjets.text}}
                     div(ng-repeat="item in ajouterObjets.items")
