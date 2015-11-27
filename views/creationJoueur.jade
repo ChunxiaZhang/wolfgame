@@ -7,7 +7,7 @@ block content
     img(src="/images/loup_solitaire.png")
 
     section
-        div(ng-controller="playersListCtrl")
+        div.ChoosePlayer(ng-controller="playersListCtrl")
             p Choose one player to continue game
             table
                 tr
@@ -27,7 +27,7 @@ block content
                 each e in erreursMsg
                     li=e
         form(ng-controller="formController" name="formAction" ng-submit="submitForm(formAction.playerName.$valid)" novalidate)
-            div Player name
+            div.PlayerName Player's Name       
                 input(type="text", id="playerNameInput", name="playerName", ng-model="newPlayerName", ng-minlength='3', ng-maxlength='50' required)
                 div(ng-messages="formAction.playerName.$dirty && formAction.playerName.$error")
                     div(ng-message="required") This field is required!

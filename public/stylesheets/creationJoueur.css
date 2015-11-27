@@ -6,12 +6,60 @@
     color: red;
 }
 
+.ChoosePlayer {
+    margin-bottom: 30px;
+    border: 2px solid black;
+    border-color: gray;
+    -moz-border-radius:8px;
+    -webkit-border-radius:8px;
+    border-radius:8px;
+    width: 93%;
+}
+
+.ChoosePlayer p {
+    text-align: center;
+    font-size: 20px;
+    padding top: 2px;
+    padding-bottom: 10px;
+}
+
+.ChoosePlayer table th {
+    text-align: center;
+    padding-right: 120px;
+}
+
+.ChoosePlayer table td {
+    padding-right: 120px;
+}
+
 #playerNameInput.ng-invalid.ng-dirty {
     border: 1px red solid;
+    background-color: lightgray;
+    text-align: center;
 }
 
 #playerNameInput {
     border: 1px darkgrey solid;
+    background-color: lightgray;
+    text-align: center;
+}
+
+.ng-active {
+    color: red;
+    position: absolute;
+    text-align: left;
+
+}
+
+.PlayerName {
+    margin-bottom: 30px;
+    border: 2px solid black;
+    border-color: gray;
+    -moz-border-radius:8px;
+    -webkit-border-radius:8px;
+    border-radius:8px;
+    width:93%;
+    height:50px;
 }
 
 img {
@@ -28,6 +76,10 @@ fieldset {
     -moz-border-radius:8px;
     -webkit-border-radius:8px;
     border-radius:8px;
+}
+
+div.notification.ng-scope {
+    color: red;
 }
 
 legend {
