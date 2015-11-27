@@ -3,12 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a2ce0683-e697-417a-ab99-14e04e62e655" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/avancement.js" afterPath="$PROJECT_DIR$/models/avancement.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/app/PagesController.js" afterPath="$PROJECT_DIR$/public/app/PagesController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/app/directives.js" afterPath="$PROJECT_DIR$/public/app/directives.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/app/formController.js" afterPath="$PROJECT_DIR$/public/app/formController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/templates/combat.html" afterPath="$PROJECT_DIR$/public/templates/combat.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/joueurs.js" afterPath="$PROJECT_DIR$/routes/api/joueurs.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/pages.js" afterPath="$PROJECT_DIR$/routes/api/pages.js" />
     </list>
     <ignored path="solution_tp4.iws" />
@@ -53,8 +47,8 @@
       <file leaf-file-name="pages.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/api/pages.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.65789473">
-              <caret line="78" column="0" selection-start-line="78" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.7">
+              <caret line="88" column="0" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -530,7 +524,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2494043" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24375" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4875" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -951,8 +945,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/api/pages.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.65789473">
-          <caret line="78" column="0" selection-start-line="78" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.7">
+          <caret line="88" column="0" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
           <folding />
         </state>
       </provider>

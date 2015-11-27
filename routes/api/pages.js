@@ -83,12 +83,9 @@ router.get('/choixAleatoire/:pageId', function(req, res) {
                 }
             });
 
-
         }
     }
 });
-
-
 
 router.get('/confirmation/:pageId', function(req, res) {
     var id = req.params.pageId;
