@@ -53,7 +53,7 @@ router.put('/:id', function(req, res) {
             joueur.pieceOr = req.body.pieceOr ? req.body.pieceOr : joueur.pieceOr;
             joueur.armes = req.body.armes ? req.body.armes : joueur.armes;
             joueur.objets = req.body.objets ? req.body.objets : joueur.objets;
-            joueur.objetsSpeciaux = req.body.objectsSpeciaux ? req.body.objetsSpeciaux : joueur.objetsSpeciaux;
+            joueur.objetsSpeciaux = req.body.objetsSpeciaux ? req.body.objetsSpeciaux : joueur.objetsSpeciaux;
             joueur.endurancePlus = req.body.endurancePlus ? req.body.endurancePlus : joueur.endurancePlus; // update endurance
             joueur.save(function(err) {
                 if (err) {
@@ -127,9 +127,7 @@ router.post('/avancement/:joueurId', function(req, res) {
  */
 router.put('/avancement/:joueurId', function(req, res) {
     Avancement.findOne({joueurId: req.params.joueurId}, function(err, avancement) {
-        console.log("update avancement starting");
         if (err) {
-            console.log("update avancement error 1");
             res.send(err);
         } else {
             avancement.pageId = req.body.pageId ? req.body.pageId : avancement.pageId;
@@ -138,10 +136,8 @@ router.put('/avancement/:joueurId', function(req, res) {
             avancement.decisionPossible = req.body.decisionPossible ? req.body.decisionPossible : avancement.decisionPossible;
             avancement.save(function(err) {
                 if (err) {
-                    console.log("update avancement error");
                     res.send(err);
                 } else {
-                    console.log("update avancement success");
                     res.json({message: "L'avancement du joueur " + req.params.joueurId + " a été correctement mis à jour."});
                 }
             });

@@ -1,4 +1,4 @@
-gameApp.controller('formController', function($scope, $http, $window, factoryProperties) {
+gameApp.controller('formController',['$scope', '$http', '$window', 'factoryProperties', function($scope, $http, $window, factoryProperties) {
 
     $scope.newPlayerName = "";
     $scope.isWholeFormValid = true;
@@ -157,4 +157,4 @@ gameApp.controller('formController', function($scope, $http, $window, factoryPro
         }
     }
 
-});
+}]);

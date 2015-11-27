@@ -20,12 +20,7 @@ gameApp.directive('statsPart', function(){
         scope: {
             player: '='
         },
-        templateUrl: "/templates/stats.html",
-        controller: function($scope, $interval) {
-            /*$interval(function(){
-             console.log("Hi, after 2 seconds");
-             }, 2000);*/
-        }
+        templateUrl: "/templates/stats.html"
     }
 });
 
@@ -127,7 +122,7 @@ gameApp.controller('CombatController', function($scope, $http){
 
     $scope.fuir = function(){
         $scope.identify.sectionId += 1;
-        $scope.loadSection($scope.identify.pageId, $scope.identify);
+        $scope.$parent.loadSection($scope.identify.pageId, $scope.identify.sectionId);
         $scope.isFuir = true;
         $scope.combatFinish = true;
         $scope.player.endurancePlus -= $scope.getPlayerPert();

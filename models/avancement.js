@@ -12,7 +12,7 @@ var decisionSchema = new Schema({
     page: String,
     pageId: Number,
     sectionId: Number,
-    valid: Boolean,
+    isValid: Boolean,
     text: String
 });
 

@@ -26,6 +26,12 @@ gameApp.controller('PagesController', ['$scope', '$http', 'ModalService', 'facto
         });
     });
 
+    $scope.updatePlayer = function() {
+        $http.put('http://localhost:3000/api/joueurs/'+ $scope.player._id, $scope.player).success(function(){
+            console.log("update player data");
+        });
+    }
+
     $scope.loadSection = function(pageId, sectionId){
 
         $scope.numeroPage = pageId;
@@ -50,11 +56,16 @@ gameApp.controller('PagesController', ['$scope', '$http', 'ModalService', 'facto
         });
         $scope.identify = {pageId: pageId, sectionId: sectionId};
         if(pageId == 91){
-            $scope.player.objetsSpeciaux.push("huileBakanal");
-            $http.put('http://localhost:3000/api/joueurs/'+ $scope.player._id, $scope.player).success(function(){
-                console.log("update player data");
-            });
-            $scope.showConfirmModal();
+            if($scope.player.objetsSpeciaux.indexOf("huileBakanal") < 0) {
+                console.log("no huile Bakanal ");
+                $scope.player.objetsSpeciaux.push("huileBakanal");
+                $scope.updatePlayer();
+                /*$http.put('http://localhost:3000/api/joueurs/'+ $scope.player._id, $scope.player).success(function(){
+                    console.log("update player data");
+                });*/
+                $scope.showConfirmModal();
+            }
+
         }
         if(pageId == 339 || pageId == 248) {
             factoryPlayers.deletePlayer($scope.player._id, function(){
@@ -98,9 +109,10 @@ gameApp.controller('PagesController', ['$scope', '$http', 'ModalService', 'facto
         $scope.identify.sectionId += 1;
         $scope.loadSection($scope.identify.pageId, $scope.identify.sectionId);
         if(isChoose) {
-            $http.put('http://localhost:3000/api/joueurs/'+ $scope.player._id, $scope.player).success(function(){
+            $scope.updatePlayer();
+            /*$http.put('http://localhost:3000/api/joueurs/'+ $scope.player._id, $scope.player).success(function(){
                 console.log("update player data");
-            });
+            });*/
         }
     }
 
@@ -110,16 +122,32 @@ gameApp.controller('PagesController', ['$scope', '$http', 'ModalService', 'facto
         $scope.loadSection($scope.identify.pageId, $scope.identify.sectionId+1);
     }
 
+    $scope.test = "test message";
     $scope.showConfirmModal = function() {
         ModalService.showModal({
             templateUrl: "/templates/confirm.html",
             controller: ['$scope', 'close', function($scope, close) {
                 $scope.close = function(result) {
+
                     close(result, 500);
+
                 };
             }]
         }).then(function(modal){
             modal.element.modal();
+            modal.close.then(function(result){
+                /*if (result) {
+                    console.log("update special objects:"+$scope.player.objetsSpeciaux);
+                    if($scope.player.objetsSpeciaux.indexOf("huileBakanal") < 0) {
+                        $scope.player.objetsSpeciaux.push("huileBakanal");
+                    }
+                    $http.put('http://localhost:3000/api/joueurs/'+ $scope.player._id, $scope.player).success(function(){
+                        console.log("update player data");
+                    });
+                }*/
+
+            });
         });
     }
 }]);
+

@@ -1,7 +1,7 @@
 var express = require('express');
 var u = require("underscore");
 var fs = require('fs');
-
+var Avancement = require('../../models/avancement');
 var constantes = require('../../lib/constantes.js');
 var pagesJeu = require('../../lib/pagesJeu.js');
 var d = require('../../lib/decision.js')
@@ -26,6 +26,7 @@ router.post('/', function(req, res) {
  */
 router.get('/choixAleatoire/:pageId', function(req, res) {
     var id = req.params.pageId;
+
     var choix = u.find(da.decisionsAleatoire, function(page) {
         return page.id == id;
     });
@@ -38,23 +39,56 @@ router.get('/choixAleatoire/:pageId', function(req, res) {
         if (joueur == undefined) {
             res.json({message: "Le joueur n'existe pas dans la session."});
         } else {
-            var valeurAleatoire = choix.f(joueur);
-            var decisions = u.map(choix.decision, function(decision) {
-                decision.valeurAleatoire = valeurAleatoire;
-                if (decision.min <= valeurAleatoire && decision.max >= valeurAleatoire) {
-                    decision.isValid = true;
-                    return decision;
+
+            Avancement.findOne({joueurId: joueur._id}, function(err, avancement) {
+                if (err) {
+                    res.send(err);
                 } else {
-                    decision.isValid = false;
-                    return decision;
+                    console.log("avancement: " + avancement);
+                    if (avancement.decisionPossible && avancement.decisionPossible.length > 0) {
+                        console.log("avancement.decisionPossible: " + avancement.decisionPossible);
+                        res.json(avancement.decisionPossible);
+                    } else {
+                        var valeurAleatoire = choix.f(joueur);
+                        var decisions = u.map(choix.decision, function(decision) {
+                            decision.valeurAleatoire = valeurAleatoire;
+                            if (decision.min <= valeurAleatoire && decision.max >= valeurAleatoire) {
+                                decision.isValid = true;
+                                return decision;
+                            } else {
+                                decision.isValid = false;
+                                return decision;
+                            }
+                        });
+
+                        // Save result to avancement DB
+                        Avancement.findOne({joueurId: joueur._id}, function(err, avancement) {
+                            if (err) {
+                                res.send(err);
+                            } else {
+                                avancement.decisionPossible = decisions;
+                                avancement.save(function(err) {
+                                    if (err) {
+                                        res.send(err);
+                                    } else {
+                                        console.log("save avancement to DB");
+                                    }
+                                });
+                            }
+                        });
+
+                        res.json(decisions);
+                    }
+
                 }
             });
-            res.json(decisions);
+
+
         }
     }
 });
 
-// ajouterObjets
+
 
 router.get('/confirmation/:pageId', function(req, res) {
     var id = req.params.pageId;
