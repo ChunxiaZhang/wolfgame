@@ -163,7 +163,7 @@ gameApp.controller('FormController',['$scope', '$http', '$window', 'factoryPrope
             $scope.formValidator.isEquipCheckedValid && $scope.formValidator.isWeaponSkillValid) {
 
             // if form valid, save the new player to DB
-            $http.post('/jeu/1', $scope.player())
+            $http.post('/createPlayer', $scope.player())
                 .success(function(){
                     $window.location.href = "/page/";
                 });

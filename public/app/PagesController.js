@@ -14,10 +14,10 @@
  */
 gameApp.controller('PagesController', ['$scope', '$http', 'ModalService', 'factoryPlayers', 'factoryProperties',
     function($scope, $http, ModalService, factoryPlayers, factoryProperties){
-    factoryProperties.constantes(function(constantes){
-        $scope.constantes = constantes;
-    });
-    $scope.player = {};
+        $scope.player = {};
+        factoryProperties.constantes(function(constantes){
+            $scope.constantes = constantes;
+        });
 
     $scope.initialData = function(){
         $scope.sections = [];
@@ -54,7 +54,6 @@ gameApp.controller('PagesController', ['$scope', '$http', 'ModalService', 'facto
     $scope.loadSection = function(pageId, sectionId){
 
         $scope.numeroPage = pageId;
-        console.log("start load " + pageId + " section: " + sectionId);
         $http.get("/api/pages/" + pageId + "/" + sectionId + "/").success(function(data){
 
             $scope.sections.push(data);
@@ -70,6 +69,23 @@ gameApp.controller('PagesController', ['$scope', '$http', 'ModalService', 'facto
             // if it needs to add objects, for page 57, 12
             if(data.ajouterObjets){
                 $scope.ajouterObjets = angular.copy(data.ajouterObjets);
+
+                // If the items already in DB, then do not show it
+                var i = 0;
+                var length = $scope.ajouterObjets.items.length;
+                for(i; i < length; i++){
+                    try{
+                        if($scope.ajouterObjets.items[i].type == "objetSpecial" && $scope.player.objetsSpeciaux.indexOf($scope.ajouterObjets.items[i].value) >= 0){
+                            $scope.ajouterObjets.items[i].isOwn = true;
+                        }
+                        if($scope.ajouterObjets.items[i].type == "objet" && $scope.player.objets.indexOf($scope.ajouterObjets.items[i].value) >= 0){
+                            $scope.ajouterObjets.items[i].isOwn = true;
+                        }
+                    }catch(e){
+                        console.log("not fine item property",e)
+                    }
+
+                }
             }
             // if it needs to confirm, for page 331, 129, 209
             if(data.confirmation){
@@ -82,7 +98,6 @@ gameApp.controller('PagesController', ['$scope', '$http', 'ModalService', 'facto
             //huileBakanal
             var huileBakanal = $scope.constantes.objetSpecial.HUILE_DE_BAKANAL;
             if($scope.player.objetsSpeciaux.indexOf(huileBakanal) < 0) {
-                console.log("no huile Bakanal ");
                 $scope.needConfirm = true;
                 $scope.player.objetsSpeciaux.push(huileBakanal);
                 $scope.updatePlayer();
@@ -121,7 +136,7 @@ gameApp.controller('PagesController', ['$scope', '$http', 'ModalService', 'facto
     }
 
     // for page 12 and 57
-    $scope.ajouterSpecialObjets = function(){
+    $scope.ajouterObjetsAction = function(){
         $scope.isAjoute = true;
         var i = 0;
         var length = $scope.ajouterObjets.items.length;
@@ -160,7 +175,6 @@ gameApp.controller('PagesController', ['$scope', '$http', 'ModalService', 'facto
             var link = data.lien; //"/page/129/2"
             var res = link.split("/");
             var len = res.length;
-            console.log("pageId: " + res[len-2] + " sectionId: " + res[len-1]);
             $scope.loadSection(res[len-2], res[len-1]);
         });
 
@@ -185,7 +199,6 @@ gameApp.controller('PagesController', ['$scope', '$http', 'ModalService', 'facto
             modal.element.modal();
             modal.close.then(function(result){
                 $scope.needConfirm = false;
-                console.log("needConfirm: " + $scope.needConfirm);
             });
         });
     }

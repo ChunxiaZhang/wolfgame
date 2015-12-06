@@ -16,14 +16,15 @@ block content
 
             div(combat-part ng-show="section.combat | haveProperty" id="combat" combat="combat" player="player" identify="identify" isPlayerWin="isPlayerWin" isFuir="isFuir" combatFinish="combatFinish")
 
-            form(id="ajouterObjets" name="ajouterObjetsForm" ng-show="!isAjoute && (section.ajouterObjets | haveProperty)")
+            form(id="ajouterObjets" name="ajouterObjetsForm" ng-show="!isAjoute && (section.ajouterObjets && ajouterObjets.items.length > 0)")
                 fieldset
                     legend {{ajouterObjets.text}}
                     div(ng-repeat="item in ajouterObjets.items")
                         label
-                            input(type="checkbox" name="specialObjet" ng-model="item.checked")
+                            input(type="checkbox" name="specialObjet" ng-model="item.checked" ng-show="!item.isOwn")
                             | {{item.value}}
-                    button(class="button" ng-click="ajouterSpecialObjets()") Ajouter!
+                            span(ng-show="item.isOwn") (You already have this item)
+                    button(class="button" ng-click="ajouterObjetsAction()") Ajouter!
             div
                 button(class="button" ng-show="section.confirmation && !isConfirm" ng-click="confirmer()") Confirmer!
 

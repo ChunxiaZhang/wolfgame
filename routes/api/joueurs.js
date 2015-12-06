@@ -56,7 +56,6 @@ router.put('/:id', function(req, res) {
             joueur.objetsSpeciaux = req.body.objetsSpeciaux ? req.body.objetsSpeciaux : joueur.objetsSpeciaux;
             joueur.endurancePlus = req.body.endurancePlus ? req.body.endurancePlus : joueur.endurancePlus; // update endurance
             req.session.joueur = joueur; // need to update seesion joueur every time modify player data
-            console.log("session joueur objets: " + req.session.joueur.objets);
             joueur.save(function(err) {
                 if (err) {
                     res.send(err);
