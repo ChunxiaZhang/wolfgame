@@ -16,7 +16,7 @@ var router = express.Router();
  * @return La représentation d'une ronde de combat à partir des paramètres
  *
  */
-router.get('/:enduranceJoueur/:habileteJoueur/:enduranceMonstre/:habileteMonstre', function(req, res) {
+router.get('/:id/:enduranceJoueur/:habileteJoueur/:enduranceMonstre/:habileteMonstre', function(req, res) {
     var ej = req.params.enduranceJoueur;
     var hj = req.params.habileteJoueur;
     var em = req.params.enduranceMonstre;
@@ -36,6 +36,11 @@ router.get('/:enduranceJoueur/:habileteJoueur/:enduranceMonstre/:habileteMonstre
 
     // On obtient la bonne case du tableau de combat
     var combat = TableCombat(ej,em)[indexQa][chiffreAleatoire];
+
+    // for combat page 180, every time the enemy loos 3 points
+    if (req.params.id == 180) {
+        combat.degatEnnemi = 3;
+    }
 
     // On retourne les informations sur la ronde de combat
     res.json({

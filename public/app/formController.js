@@ -1,16 +1,27 @@
-gameApp.controller('formController',['$scope', '$http', '$window', 'factoryProperties', function($scope, $http, $window, factoryProperties) {
+/**
+ * This controller used to validate create new player form,
+ * and create new player, save to the DB
+ * */
+gameApp.controller('FormController',['$scope', '$http', '$window', 'factoryProperties', function($scope, $http, $window, factoryProperties) {
 
     $scope.newPlayerName = "";
-    $scope.isWholeFormValid = true;
+    // get disciplines to show in the form
     factoryProperties.disciplinesList(function(disciplines) {
         $scope.disciplinesScope = disciplines;
     });
+    // get equipments to show in the form
     factoryProperties.equipmentsList(function (equipments) {
         $scope.equipmentsScope = equipments;
     });
+    factoryProperties.constantes(function(constantes){
+        $scope.constantes = constantes;
+    });
 
+    /**
+     * validator: need to valid checked disciplines, checked equipments,
+     * if weapon skill is checked, if not, can not choose weapons
+     * */
     $scope.formValidator = {
-        isWholeFormValid: false,
         isDiscCheckedValid: false,
         isEquipCheckedValid: false,
         isMoreThan5: false,
@@ -23,6 +34,10 @@ gameApp.controller('formController',['$scope', '$http', '$window', 'factoryPrope
         },
     };
 
+    /**
+    * if change status of check box, need to confirm if already choose maximum items,
+     * if already already choose maximum items, need to cancel check action, and give message to player
+    * */
     $scope.changeDiscStatus = function(index){
         var num = $scope.formValidator.getCheckedNum($scope.disciplinesScope);
 
@@ -44,7 +59,8 @@ gameApp.controller('formController',['$scope', '$http', '$window', 'factoryPrope
 
     $scope.isWeaponSkillChecked = function() {
         for(var i = 0; i<$scope.disciplinesScope.length; i++) {
-            if ($scope.disciplinesScope[i].value == "maitriseArmes" && $scope.disciplinesScope[i].checked) {
+            //maitriseArmes
+            if ($scope.disciplinesScope[i].value == $scope.constantes.discipline.MAITRISE_ARMES && $scope.disciplinesScope[i].checked) {
                 return true;
             }
         }
@@ -59,6 +75,10 @@ gameApp.controller('formController',['$scope', '$http', '$window', 'factoryPrope
         }
     }
 
+    /**
+     * if change status of check box, need to confirm if already choose maximum items,
+     * if already already choose maximum items, need to cancel check action, and give message to player
+     * */
     $scope.changeEquipStatus = function(index){
         var num = $scope.formValidator.getCheckedNum($scope.equipmentsScope);
         $scope.formValidator.isWeaponSkillValid = true;
@@ -112,7 +132,6 @@ gameApp.controller('formController',['$scope', '$http', '$window', 'factoryPrope
         return values;
     }
     $scope.getObjetsSpeciauxValues = function() {
-
         var values = [];
         $scope.equipmentsScope.forEach(function(obj){
             if(obj.checked && obj.name=="objetsSpeciaux") {
@@ -123,6 +142,7 @@ gameApp.controller('formController',['$scope', '$http', '$window', 'factoryPrope
         return values;
     }
 
+    // create new player
     $scope.player = function(){
         return {
             playerName:$scope.newPlayerName,
@@ -133,11 +153,16 @@ gameApp.controller('formController',['$scope', '$http', '$window', 'factoryPrope
         };
     }
 
+    /**
+     * Click submit button, first need to confirm validation, if valid create and save player to DB and turn to game play page;
+     * if not valid, cannot create new player and give player message,
+     * */
     $scope.submitForm = function(inputValid) {
         $scope.validWeaponSkill();
         if (inputValid && $scope.formValidator.isDiscCheckedValid &&
             $scope.formValidator.isEquipCheckedValid && $scope.formValidator.isWeaponSkillValid) {
 
+            // if form valid, save the new player to DB
             $http.post('/jeu/1', $scope.player())
                 .success(function(){
                     $window.location.href = "/page/";

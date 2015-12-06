@@ -7,53 +7,54 @@ block content
     img(src="/images/loup_solitaire.png")
 
     section
-        div(ng-controller="playersListCtrl")
-            p Choose one player to continue game
-            table
-                tr
-                    th Name
-                    th ID
-                tr(ng-repeat="player in dbPlayers")
-                    td
-                        a(href="#" ng-click="restart(player._id)") {{player.joueurNom}}
-                    td
-                        a(href="#" ng-click="restart(player._id)") {{player._id}}
-                    td
-                        input(type="button" ng-click="deletePlayer(player._id)" value="Delete")
+        div(id="playerList" ng-controller="PlayersListCtrl")
+            div(ng-show="dbPlayers.length > 0")
+               h2 Choose one player to continue game
+               table
+                  tr
+                      th Name
+                      th ID
+                  tr(ng-repeat="player in dbPlayers")
+                      td
+                          a(href="#" ng-click="restart(player._id)") {{player.joueurNom}}
+                      td
+                          a(href="#" ng-click="restart(player._id)") {{player._id}}
+                      td
+                          input.button(type="button" ng-click="deletePlayer(player._id)" value="Delete")
         h1 Création du personnage
 
         div#erreurs
             ul
                 each e in erreursMsg
                     li=e
-        form(ng-controller="formController" name="formAction" ng-submit="submitForm(formAction.playerName.$valid)" novalidate)
-            div Player name
-                input(type="text", id="playerNameInput", name="playerName", ng-model="newPlayerName", ng-minlength='3', ng-maxlength='50' required)
-                div(ng-messages="formAction.playerName.$dirty && formAction.playerName.$error")
-                    div(ng-message="required") This field is required!
-                    div(ng-message="minlength") You need to enter more than 3 characters!
-                    div(ng-message="maxlength") You can't enter more than 50 characters!
+        form(ng-controller="FormController" name="formAction" ng-submit="submitForm(formAction.playerName.$valid)" novalidate)
             fieldset
-                legend Disciplines
+                legend Name
+                div Player name:
+                    input(type="text", id="playerNameInput", name="playerName", ng-model="newPlayerName", ng-minlength='3', ng-maxlength='50' required)
+                    div(ng-messages="formAction.playerName.$dirty && formAction.playerName.$error")
+                        div(ng-message="required") This field is required!
+                        div(ng-message="minlength") You need to enter more than 3 characters!
+                        div(ng-message="maxlength") You can't enter more than 50 characters!
+            fieldset
+                legend Choisir 5 disciplines
 
-                p Choisir 5 disciplines:
                 div(ng-if="formValidator.isMoreThan5" class='notification') You can't choose more than 5 disciplines. Please uncheck others to choose this one.
                 div(ng-show="!formValidator.isDiscCheckedValid") Need to select 5 items
-                ul
-                    li(ng-repeat="disc in disciplinesScope")
-                        label
-                            input(type="checkbox" name='{{disc.name}}' value="{{disc.value}}" ng-model="disc.checked" ng-change="changeDiscStatus($index)")
-                            | {{disc.message}}
+                br
+                div(class="chooseItems" ng-repeat="disc in disciplinesScope")
+                    label
+                        input(type="checkbox" name='{{disc.name}}' value="{{disc.value}}" ng-model="disc.checked" ng-change="changeDiscStatus($index)")
+                        | {{disc.message}}
             fieldset
-                legend Équipement
+                legend Choisir 2 Équipement
 
-                p Choisir 2 items:
                 div(ng-if="formValidator.isMoreThan2" class='notification') You can't choose more than 2 equipments. Please uncheck others to choose this one.
                 div(ng-show="!formValidator.isEquipCheckedValid") Need to select 2 items
                 div(ng-show="!formValidator.isWeaponSkillValid") You can not choose weapon since you didn't choose weapon skill.
-                ul
-                    li(ng-repeat="equip in equipmentsScope")
-                        label
-                            input(type="checkbox" name='{{equip.name}}' value="{{equip.value}}" ng-model="equip.checked" ng-change="changeEquipStatus($index)")
-                            | {{equip.message}}
+                br
+                div(class="chooseItems" ng-repeat="equip in equipmentsScope")
+                    label
+                        input(type="checkbox" name='{{equip.name}}' value="{{equip.value}}" ng-model="equip.checked" ng-change="changeEquipStatus($index)")
+                        | {{equip.message}}
             input.button(type="submit" value="Commencer la partie!")

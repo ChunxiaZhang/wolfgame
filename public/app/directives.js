@@ -1,3 +1,7 @@
+/**
+ * This directive is used to extend the combat part in game play page
+ *
+ * */
 gameApp.directive('combatPart', function(){
     return {
         restrict: 'A',
@@ -14,6 +18,10 @@ gameApp.directive('combatPart', function(){
     }
 });
 
+/**
+ * This directive is used to extend the stats part in game play page
+ *
+ * */
 gameApp.directive('statsPart', function(){
     return {
         restrict: 'A',
@@ -24,20 +32,29 @@ gameApp.directive('statsPart', function(){
     }
 });
 
-gameApp.controller('CombatController', function($scope, $http){
+/**
+ * This controller is used to trait combat logic,
+ * click combat button, get the combat result from server api,
+ * when combat finish, confirm if player win, if win give him message and load next section,
+ * if player lost the game, then give message and delete this player from DB
+ * click fuir button, quit the combat and update player data
+ * */
+gameApp.controller('CombatController', ['$scope', '$http', 'factoryProperties', function($scope, $http, factoryProperties){
     $scope.rondes = [];
     $scope.isFuir = false;
     $scope.combatFinish = false;
+    factoryProperties.constantes(function(constantes){
+        $scope.constantes = constantes;
+        if($scope.player.disciplines.indexOf($scope.constantes.discipline.PUISSANCE_PSYCHIQUE) < 0) {
+            $scope.havePuissancePsychique = false;
+        } else {
+            $scope.havePuissancePsychique = true;
+        }
+    });
 
-
-    if($scope.player.disciplines.indexOf("puissancePsychique") < 0) {
-        $scope.havePuissancePsychique = false;
-    } else {
-        $scope.havePuissancePsychique = true;
-    }
     // Click combattre button start a ronde
     $scope.combattre = function(withPuissance){
-        $http.get('http://localhost:3000/api/combat/' + ($scope.player.endurancePlus - $scope.getPlayerPert()) + '/'
+        $http.get('/api/combat/' + $scope.identify.pageId + '/' + ($scope.player.endurancePlus - $scope.getPlayerPert()) + '/'
                 + $scope.player.habiletePlus + '/' + ($scope.combat.endurance - $scope.getEnnemPert()) + '/' + $scope.combat.habilete)
             .success(function(data){
                 $scope.rondes.push(data);
@@ -80,6 +97,11 @@ gameApp.controller('CombatController', function($scope, $http){
         }
     }
 
+    /**
+     * To confirm game status, if player win or not,
+     * if player lost, delete this player data in DB,
+     * if player win, update player data, and load next section
+     * */
     $scope.gameStatus = function(){
         if ($scope.rondes && $scope.rondes.length > 0) {
             var endurancePlayer = $scope.rondes[$scope.rondes.length - 1].currentEndurancePlayer;
@@ -90,18 +112,17 @@ gameApp.controller('CombatController', function($scope, $http){
                 $scope.combatFinish = false;
             }
             if (enduranceEnnmie <= 0 && endurancePlayer > 0) {
-                console.log("player win!");
                 var combats = [];
                 for (var i = 0; i < $scope.rondes.length; i++) {
                     var combat = {chiffreAleatoire: $scope.rondes[i].chiffreAleatoire, enduranceMonstre: $scope.rondes[i].currentEnduranceEnnemi}
                     combats.push(combat);
                 }
-                $http.put('http://localhost:3000/api/joueurs/avancement/' + $scope.player._id, {combats: combats})
+                $http.put('/api/joueurs/avancement/' + $scope.player._id, {combats: combats})
                     .success(function(){
                         console.log("update combats ");
                     });
                 $scope.player.endurancePlus -= $scope.getPlayerPert();
-                $http.put('http://localhost:3000/api/joueurs/' + $scope.player._id, $scope.player)
+                $http.put('/api/joueurs/' + $scope.player._id, $scope.player)
                     .success(function(){
                         console.log("update player");
                     });
@@ -109,29 +130,35 @@ gameApp.controller('CombatController', function($scope, $http){
             }
             if (endurancePlayer <= 0) {
                 $scope.isPlayerWin = false;
+                $http.delete("/api/joueurs/" + $scope.player._id).success(function(){
+                    console.log("delete player");
+                });
             }
 
             if($scope.isPlayerWin && $scope.combatFinish) {
-                console.log("load section from directive");
-                console.log("sectionId: " + ($scope.identify.sectionId + 1));
                 $scope.identify.sectionId += 1;
                 $scope.$parent.loadSection($scope.identify.pageId, $scope.identify.sectionId);
             }
         }
     };
 
+    /**
+     * If player click fuir button, then reduce the endurance of this player,
+     * update player data in DB,
+     * load next section of this page
+     * */
     $scope.fuir = function(){
         $scope.identify.sectionId += 1;
         $scope.$parent.loadSection($scope.identify.pageId, $scope.identify.sectionId);
         $scope.isFuir = true;
         $scope.combatFinish = true;
         $scope.player.endurancePlus -= $scope.getPlayerPert();
-        $http.put('http://localhost:3000/api/joueurs/'+ $scope.player._id, $scope.player).success(function(){
+        $http.put('/api/joueurs/'+ $scope.player._id, $scope.player).success(function(){
             console.log("update player data");
         });
     }
 
-})
+}]);
 
 
 

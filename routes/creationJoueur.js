@@ -63,13 +63,11 @@ router.post('/jeu/1', function(req, res) {
             if (err) {
                 res.send(err);
             } else {
-                rest.post('http://localhost:3000/api/joueurs/avancement/' + joueur.id)
+                rest.post('/api/joueurs/avancement/' + joueur.id)
                 .on('complete', function(data, response) {
                     console.log(response);
                 });
                 req.session.joueur = joueur;
-                console.log("save player to seesion: " + req.session.joueur._id);
-                //TODO if this is need?
                 res.redirect('/jeu/1');
             }
         });
@@ -84,6 +82,7 @@ router.post('/jeu/1', function(req, res) {
 
 // GET constantes.
 router.get('/constantes', function(req, res, next) {
+    console.log("constantes: " + constantes.discipline.PUISSANCE_PSYCHIQUE);
     res.json(constantes);
 });
 

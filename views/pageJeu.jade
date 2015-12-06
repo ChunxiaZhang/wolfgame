@@ -27,7 +27,7 @@ block content
             div
                 button(class="button" ng-show="section.confirmation && !isConfirm" ng-click="confirmer()") Confirmer!
 
-            section(id='decision' ng-show="section.decision")
+            section(id='decision' ng-show="section.decision && !needConfirm")
                 h1 Decision
                 div(ng-repeat="item in decisions") {{item.text}}
                     a(href="" ng-click="clickPageLink(item.pageId, item.sectionId, $index)" ng-show="isNormalDecision" ng-class="{disabled: !item.isValid}") turn to page {{item.pageId}}

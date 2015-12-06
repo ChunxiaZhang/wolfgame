@@ -55,6 +55,8 @@ router.put('/:id', function(req, res) {
             joueur.objets = req.body.objets ? req.body.objets : joueur.objets;
             joueur.objetsSpeciaux = req.body.objetsSpeciaux ? req.body.objetsSpeciaux : joueur.objetsSpeciaux;
             joueur.endurancePlus = req.body.endurancePlus ? req.body.endurancePlus : joueur.endurancePlus; // update endurance
+            req.session.joueur = joueur; // need to update seesion joueur every time modify player data
+            console.log("session joueur objets: " + req.session.joueur.objets);
             joueur.save(function(err) {
                 if (err) {
                     res.send(err);
@@ -133,7 +135,7 @@ router.put('/avancement/:joueurId', function(req, res) {
             avancement.pageId = req.body.pageId ? req.body.pageId : avancement.pageId;
             avancement.sectionId = req.body.sectionId ? req.body.sectionId : avancement.sectionId;
             avancement.combats = req.body.combats ? req.body.combats : avancement.combats;
-            avancement.decisionPossible = req.body.decisionPossible ? req.body.decisionPossible : avancement.decisionPossible;
+            avancement.decisionPossible = req.body.decisionPossible? req.body.decisionPossible : avancement.decisionPossible;
             avancement.save(function(err) {
                 if (err) {
                     res.send(err);

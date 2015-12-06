@@ -11,6 +11,7 @@ router.get('/aide', function(req, res, next) {
     res.render('aide');
 });
 
+// GET game play page
 router.get('/page', function(req, res) {
     res.render('pageJeu');
 });

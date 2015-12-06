@@ -44,11 +44,12 @@ router.get('/choixAleatoire/:pageId', function(req, res) {
                 if (err) {
                     res.send(err);
                 } else {
-                    console.log("avancement: " + avancement);
+                    // for page 134, 167, check if there is record for this page decisions in DB to continue the game
                     if (avancement.decisionPossible && avancement.decisionPossible.length > 0) {
                         console.log("avancement.decisionPossible: " + avancement.decisionPossible);
                         res.json(avancement.decisionPossible);
                     } else {
+                        // if not find decisions in DB, then calculate the possible dicisions
                         var valeurAleatoire = choix.f(joueur);
                         var decisions = u.map(choix.decision, function(decision) {
                             decision.valeurAleatoire = valeurAleatoire;
@@ -61,7 +62,7 @@ router.get('/choixAleatoire/:pageId', function(req, res) {
                             }
                         });
 
-                        // Save result to avancement DB
+                        // Save result to avancement DB used to continue game next time
                         Avancement.findOne({joueurId: joueur._id}, function(err, avancement) {
                             if (err) {
                                 res.send(err);
@@ -87,9 +88,17 @@ router.get('/choixAleatoire/:pageId', function(req, res) {
     }
 });
 
+/**
+ * For page 331, 129, 209, 155, 12
+ * Service Web qui retourne l'information d'une page qui contient une perte
+ *
+ * @param pageId ID de la page de l'histoire
+ *
+ * @return La perte de la page
+ */
 router.get('/confirmation/:pageId', function(req, res) {
     var id = req.params.pageId;
-    var choix = u.find(da.decisionsAleatoire, function(page) {
+    var choix = u.find(p.perte, function(page) {
         return page.id == id;
     });
 
@@ -101,8 +110,9 @@ router.get('/confirmation/:pageId', function(req, res) {
         if (joueur == undefined) {
             res.json({message: "Le joueur n'existe pas dans la session."});
         } else {
-            var valeurPerte = choix.f(joueur);
-            res.json(valeurPerte);
+            var result = choix.f(joueur);
+            console.log("result objets: " + result.joueur.objets);
+            res.json(result);
         }
     }
 });
@@ -124,7 +134,7 @@ router.get('/decision/:pageId', function(req, res) {
             res.json({message: "Le joueur n'existe pas dans la session."});
         } else {
             var decisions = u.map(choix.decision, function(decision) {
-                decision.isValid = decision.valid(joueur);
+                decision.isValid = decision.valid(joueur); // if the player can go this page (for page 91)
                 return decision;
             });
             res.json(decisions);
