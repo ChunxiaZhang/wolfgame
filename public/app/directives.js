@@ -62,7 +62,8 @@ gameApp.controller('CombatController', ['$scope', '$http', 'factoryProperties', 
                 if($scope.havePuissancePsychique) {
                     bonnus = 2;
                 }
-                $scope.rondes[$scope.rondes.length-1].currentEndurancePlayer = $scope.player.endurancePlus - $scope.getPlayerPert() + bonnus;
+                var endurancePossible = $scope.player.endurancePlus - $scope.getPlayerPert() + bonnus;
+                $scope.rondes[$scope.rondes.length-1].currentEndurancePlayer = endurancePossible > $scope.player.enduranceBase ? $scope.player.endurance: endurancePossible;
                 $scope.rondes[$scope.rondes.length-1].currentEnduranceEnnemi = $scope.combat.endurance - $scope.getEnnemPert();
                 $scope.gameStatus();
             });

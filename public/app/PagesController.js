@@ -52,8 +52,18 @@ gameApp.controller('PagesController', ['$scope', '$http', 'ModalService', 'facto
     }
 
     $scope.loadSection = function(pageId, sectionId){
+        if($scope.numeroPage != pageId) {
 
-        $scope.numeroPage = pageId;
+            if (pageId != 1 && $scope.player.disciplines.indexOf($scope.constantes.discipline.GUERISON) >= 0 &&
+                $scope.player.endurancePlus < $scope.player.enduranceBase) {
+                $scope.player.endurancePlus += 1;
+                $scope.updatePlayer();
+                $scope.confirmMessage = "Vous possèdez la guérison, alors vous gagnez 1 point d’endurance.";
+                $scope.showConfirmModal();
+            }
+            $scope.numeroPage = pageId;
+        }
+
         $http.get("/api/pages/" + pageId + "/" + sectionId + "/").success(function(data){
 
             $scope.sections.push(data);

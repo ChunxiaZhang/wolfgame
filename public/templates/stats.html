@@ -11,7 +11,8 @@
     <tr>
         <td><img src="/images/points_habilete.png"/></td>
         <td>
-            <p id="habilete">{{player.habiletePlus}}</p>
+            <p ng-show="player.habiletePlus>player.habileteBase">{{player.habileteBase}} + {{player.habiletePlus-player.habileteBase}} = {{player.habiletePlus}}</p>
+            <p ng-show="player.habiletePlus<player.habileteBase">{{player.habileteBase}} - {{player.habileteBase-player.habiletePlus}} = {{player.habiletePlus}}</p>
         </td>
     </tr>
     <tr>
